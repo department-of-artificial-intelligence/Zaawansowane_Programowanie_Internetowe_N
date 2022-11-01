@@ -505,3 +505,5 @@ namespace WebStore.DAL.Migrations
         }
     }
 }
+
+
