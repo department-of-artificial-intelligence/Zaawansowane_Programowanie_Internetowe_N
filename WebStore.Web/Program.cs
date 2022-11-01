@@ -1,4 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using WebStore.DAL.EF;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Add data context
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("WSDatabaseConntection"));
+});
+
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
