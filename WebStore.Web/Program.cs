@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add data context
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("WSDatabaseConntection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 // Add services to the container.
