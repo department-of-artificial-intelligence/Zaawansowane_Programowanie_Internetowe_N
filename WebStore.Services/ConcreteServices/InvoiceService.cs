@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
@@ -8,75 +5,99 @@ using WebStore.DAL.EF;
 using WebStore.Model.DataModels;
 using WebStore.Services.Interfaces;
 using WebStore.ViewModels.VM;
-namespace WebStore.Services.ConcreteServices
+
+namespace WebStore.Services.ConcreteServices;
+public class InvoiceService : BaseService, IInvoiceService
 {
-    public class InvoiceService : BaseService, IProductService
+    public InvoiceService(ApplicationDbContext context, IMapper mapper, ILogger logger) : base(context, mapper, logger) { }
+
+    public InvoiceVm AddOrUpdateInvoice(AddOrUpdateInvoiceVm addOrUpdateInvoiceVm)
     {
-        public InvoiceService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger)
-        : base(dbContext, mapper, logger) { }
-        public ProductVm AddOrUpdateProduct(AddOrUpdateProductVm addOrUpdateProductVm)
+        try
         {
-            try
-            {
-                if (addOrUpdateProductVm == null)
-                    throw new ArgumentNullException("View model parameter is null");
-                var productEntity = Mapper.Map<Product>(addOrUpdateProductVm);
-                if (addOrUpdateProductVm.Id.HasValue || addOrUpdateProductVm.Id == 0)
-                    DbContext.Products.Update(productEntity);
-                else
-                    DbContext.Products.Add(productEntity);
-                DbContext.SaveChanges();
-                var productVm = Mapper.Map<ProductVm>(productEntity);
-                return productVm;
-            }
-            catch (Exception ex)
+            if (addOrUpdateInvoiceVm == null)
+                throw new ArgumentNullException("View model parameter is null");
+
+            var invoiceEntity = Mapper.Map<Invoice>(addOrUpdateInvoiceVm);
+
+            if (addOrUpdateInvoiceVm.Id.HasValue || addOrUpdateInvoiceVm.Id == 0)
+                DbContext.Invoices.Update(invoiceEntity);
+            else
+                DbContext.Invoices.Add(invoiceEntity);
+
+            DbContext.SaveChanges();
+
+            var invoiceVm = Mapper.Map<InvoiceVm>(invoiceEntity);
+
+            return invoiceVm;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, ex.Message);
+            throw;
+        }
+    }
+    public InvoiceVm GetInvoice(Expression<Func<Invoice, bool>> filterExpression)
+    {
+        try
+        {
+            if (filterExpression == null)
+                throw new ArgumentNullException("Filter expression parameter is null");
+            var invoiceEntity = DbContext.Invoices.FirstOrDefault(filterExpression);
+            var invoiceVm = Mapper.Map<InvoiceVm>(invoiceEntity);
+            return invoiceVm;
+        }
+
+        catch (Exception ex)
+        {
             {
                 Logger.LogError(ex, ex.Message);
                 throw;
             }
         }
-
-        public object DeleteProduct(Func<object, bool> value)
+    }
+    public IEnumerable<InvoiceVm> GetInvoices(Expression<Func<Invoice, bool>>? filterExpression = null)
+    {
+        try
         {
-            throw new NotImplementedException();
+            var invoicesQuery = DbContext.Invoices.AsQueryable();
+            if (filterExpression != null)
+                invoicesQuery = invoicesQuery.Where(filterExpression);
+            var invoiceVms = Mapper.Map<IEnumerable<InvoiceVm>>(invoicesQuery);
+
+            return invoiceVms;
         }
 
-        public bool DeleteProduct(Expression<Func<Product, bool>> filterExpression)
+        catch (Exception ex)
         {
-            throw new NotImplementedException();
+            Logger.LogError(ex, ex.Message);
+            throw;
         }
+    }
 
-        public ProductVm GetProduct(Expression<Func<Product, bool>> filterExpression)
+    public async Task DeleteInvoice(Expression<Func<Invoice, bool>> filterExpression)
+    {
+        try
         {
-            try
+            if (filterExpression == null)
+                throw new ArgumentNullException("Filter expression parameter is null");
+
+            var invoiceEntity = DbContext.Invoices
+                .FirstOrDefault(filterExpression);
+
+            if (invoiceEntity == null)
             {
-                if (filterExpression == null)
-                    throw new ArgumentNullException("Filter expression parameter is null");
-                var productEntity = DbContext.Products.FirstOrDefault(filterExpression);
-                var productVm = Mapper.Map<ProductVm>(productEntity);
-                return productVm;
+                throw new Exception("Invoice not found");
             }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, ex.Message);
-                throw;
-            }
+
+            DbContext.Invoices.Remove(invoiceEntity);
+
+            await DbContext.SaveChangesAsync();
         }
-        public IEnumerable<ProductVm> GetProducts(Expression<Func<Product, bool>>? filterExpression = null)
+        catch (Exception ex)
         {
-            try
-            {
-                var productsQuery = DbContext.Products.AsQueryable();
-                if (filterExpression != null)
-                    productsQuery = productsQuery.Where(filterExpression);
-                var productVms = Mapper.Map<IEnumerable<ProductVm>>(productsQuery);
-                return productVms;
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, ex.Message);
-                throw;
-            }
+            Logger.LogError(ex, ex.Message);
+            throw;
         }
     }
 }

@@ -10,11 +10,12 @@ namespace WebStore.Services.Interfaces
 {
     public interface IInvoiceService
     {
-        public ProductVm AddOrUpdateProduct(AddOrUpdateProductVm addOrUpdateProductVm);
-        public ProductVm GetProduct(Expression<Func<Product, bool>> filterExpression);
-        public IEnumerable<ProductVm> GetProducts(Expression<Func<Product, bool>>? filterExpression = null);
+        public InvoiceVm AddOrUpdateInvoice(AddOrUpdateInvoiceVm addOrUpdateInvoiceVm);
+        public InvoiceVm GetInvoice(Expression<Func<Invoice, bool>> filterExpression);
 
+        public IEnumerable<InvoiceVm> GetInvoices(Expression<Func<Invoice, bool>>? filterExpression = null);
 
+        public Task DeleteInvoice(Expression<Func<Invoice, bool>> filterExpression);
 
     }
 }

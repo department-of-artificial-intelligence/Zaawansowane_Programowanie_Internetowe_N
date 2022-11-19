@@ -34,7 +34,7 @@ namespace WebStore.Services.ConcreteServices
             }
         }
 
-        public ProductVm AddOrUpdateProduct(AddOrUpdateProductVm addOrUpdateProductVm)
+        public Task DeleteAddress(Expression<Func<Address, bool>> filterExpression)
         {
             throw new NotImplementedException();
         }
@@ -55,6 +55,9 @@ namespace WebStore.Services.ConcreteServices
                 throw;
             }
         }
+
+
+
         public IEnumerable<AddressVm> GetAddresses(Expression<Func<Address, bool>>? filterExpressions = null)
         {
             try
@@ -72,14 +75,6 @@ namespace WebStore.Services.ConcreteServices
             }
         }
 
-        public ProductVm GetProduct(Expression<Func<Product, bool>> filterExpression)
-        {
-            throw new NotImplementedException();
-        }
 
-        public IEnumerable<ProductVm> GetProducts(Expression<Func<Product, bool>>? filterExpression = null)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
