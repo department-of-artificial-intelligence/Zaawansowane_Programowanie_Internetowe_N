@@ -3,15 +3,15 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:13191",
-      "sslPort": 44390
+      "applicationUrl": "http://localhost:57086",
+      "sslPort": 44326
     }
   },
   "profiles": {
     "WebStore.Web": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:5090",
+      "applicationUrl": "https://localhost:7156;http://localhost:5039",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy"

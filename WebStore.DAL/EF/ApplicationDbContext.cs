@@ -47,7 +47,11 @@ namespace WebStore.DAL.EF {
                 .HasForeignKey(g => g.OrderId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-
+            modelBuilder.Entity<StationaryStoreEmployee>()
+                .HasOne(sse=>sse.StationaryStore)
+                .WithMany(ss=>ss.StationaryStoreEmployees)
+                .HasForeignKey(sse=>sse.StationaryStoreId)
+                .OnDelete(DeleteBehavior.Restrict);
 
         }
     }

@@ -1,34 +1,98 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.AspNetCore.Identity;
+using WebStore.Services.Interfaces; 
+using Microsoft.IdentityModel.Tokens; 
+using System.Text; 
+using WebStore.ViewModels.VM;
+using Microsoft.OpenApi.Models;
+using WebStore.Model.DataModels; 
+using WebStore.Services.Configuration; 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using WebStore.Services.ConcreteServices;
 using WebStore.DAL.EF;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args); 
+// Add services to the container. 
+builder.Services.AddAutoMapper(typeof(MainProfile)); 
+builder.Services.AddDbContext<ApplicationDbContext>(options => 
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")) //here you can define a database type. 
+); 
+builder.Services.Configure<JwtOptionsVm>(options =>builder.Configuration.GetSection("JwtOptions").Bind(options)); 
+builder.Services.AddIdentity<User, IdentityRole<int>>(o => 
+{ 
+    o.Password.RequireDigit = false; 
+    o.Password.RequireUppercase = false; 
+    o.Password.RequireLowercase = false; 
+    o.Password.RequireNonAlphanumeric = false; 
+    o.User.RequireUniqueEmail = false; 
+    }) .AddRoleManager<RoleManager<IdentityRole<int>>>() 
+        .AddUserManager<UserManager<User>>() 
+        .AddEntityFrameworkStores<ApplicationDbContext>() 
+        .AddDefaultTokenProviders(); 
+    builder.Services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN"); 
+    builder.Services.AddTransient(typeof(ILogger), typeof(Logger<Program>)); 
+    builder.Services.AddScoped<IProductService, ProductService>(); 
+    builder.Services.AddScoped<IAddressService, AddressService>(); 
+    builder.Services.AddScoped<IInvoiceService, InvoiceService>();
+    builder.Services.AddScoped<IOrderService, OrderService>();
+    builder.Services.AddScoped<IStoreService, StoreService>();
+    builder.Services.AddAuthentication(options => 
+            { 
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme; 
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme; 
+            }) 
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+            { 
 
-// Add services to the container.
-var ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(ConnectionString));
+                options.TokenValidationParameters = new TokenValidationParameters 
 
-builder.Services.AddControllersWithViews();
+            { 
 
-var app = builder.Build();
+                    ValidateAudience = false, 
+                    ValidateIssuer = false, 
+                    ValidateIssuerSigningKey = true, 
+                    IssuerSigningKey = new 
+SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtOptions:SecretKey"])), 
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
+                    ValidateLifetime = true, 
+                    ClockSkew = TimeSpan.FromMinutes(5) 
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseRouting();
+            }; 
 
+        }); 
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
+builder.Services.AddControllersWithViews() 
+    .AddNewtonsoftJson(options => 
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore 
 
-app.MapFallbackToFile("index.html"); ;
+            ); 
 
-app.Run();
+builder.Services.AddSwaggerGen(c => 
+{ 
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebStore API", Version = "v1" }); 
+}); 
+var app = builder.Build(); 
+app.UseSwagger(); 
+app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebStore API v1")); 
+// Configure the HTTP request pipeline. 
+if (!app.Environment.IsDevelopment()) 
+{ 
+ app.UseDeveloperExceptionPage(); 
+ app.UseHsts(); 
+} 
+app.UseHttpsRedirection(); 
+app.UseStaticFiles(); 
+app.UseRouting(); 
+app.UseAuthentication(); 
+app.UseAuthorization(); 
+
+app.MapControllerRoute( 
+
+    name: "default", 
+    pattern: "{controller}/{action=Index}/{id?}"); 
+
+ 
+
+app.MapFallbackToFile("index.html"); ; 
+app.Run(); 
+
