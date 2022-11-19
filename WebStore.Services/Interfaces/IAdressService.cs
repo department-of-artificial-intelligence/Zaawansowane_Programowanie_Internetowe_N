@@ -8,7 +8,7 @@ using WebStore.ViewModels.VM;
 
 namespace WebStore.Services.Interfaces
 {
-    public interface IAdessService
+    public interface IAddressService
     {
         public ProductVm AddOrUpdateProduct(AddOrUpdateProductVm addOrUpdateProductVm);
         public ProductVm GetProduct(Expression<Func<Product, bool>> filterExpression);

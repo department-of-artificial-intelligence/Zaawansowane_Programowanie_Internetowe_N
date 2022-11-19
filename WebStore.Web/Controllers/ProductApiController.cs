@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebStore.Services.Interfaces;
 using WebStore.ViewModels.VM;
 namespace WebStore.Web.Controllers;
-using System.Security.Claims;
+
 public class ProductApiController : BaseApiController
 {
     private readonly IProductService _productService;

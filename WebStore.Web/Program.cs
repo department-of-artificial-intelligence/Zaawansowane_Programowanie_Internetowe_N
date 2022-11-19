@@ -1,23 +1,25 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using WebStore.DAL.EF;
 using WebStore.Model.DataModels;
 using WebStore.Services.ConcreteServices;
-using WebStore.Services.Configuration.Profiles;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using WebStore.Services.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebStore.ViewModels.VM;
+using Microsoft.OpenApi.Models;
 using WebStore.Services.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
-// Add services to the container.
-builder.Services.AddAutoMapper(typeof(MainProfile));
+
+// Add data context
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")) //here you can define a database type.
-);
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("WSDatabaseConntection"));
+});
+builder.Services.AddAutoMapper(typeof(MainProfile));
+
 builder.Services.Configure<JwtOptionsVm>(options => builder.Configuration.GetSection("JwtOptions").Bind(options));
 builder.Services.AddIdentity<User, IdentityRole<int>>(o =>
 {
@@ -60,6 +62,9 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebStore API", Version = "v1" });
 });
+builder.Services.AddTransient<IProductService, ProductService>();
+
+
 var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebStore API v1"));
@@ -69,6 +74,7 @@ if (!app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
     app.UseHsts();
 }
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
@@ -78,4 +84,7 @@ app.MapControllerRoute(
 name: "default",
 pattern: "{controller}/{action=Index}/{id?}");
 app.MapFallbackToFile("index.html"); ;
+
+
+
 app.Run();

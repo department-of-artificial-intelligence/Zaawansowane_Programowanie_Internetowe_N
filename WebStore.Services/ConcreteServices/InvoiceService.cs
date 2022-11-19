@@ -35,6 +35,17 @@ namespace WebStore.Services.ConcreteServices
                 throw;
             }
         }
+
+        public object DeleteProduct(Func<object, bool> value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteProduct(Expression<Func<Product, bool>> filterExpression)
+        {
+            throw new NotImplementedException();
+        }
+
         public ProductVm GetProduct(Expression<Func<Product, bool>> filterExpression)
         {
             try
