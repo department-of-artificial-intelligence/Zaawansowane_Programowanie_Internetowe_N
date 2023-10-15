@@ -1,6 +1,8 @@
-﻿namespace WebStore.ViewModels;
+﻿using Microsoft.EntityFrameworkCore;
 
-public class UserViewModel
+namespace WebStore.Model;
+
+public class User
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }

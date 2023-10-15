@@ -1,8 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using WebStore.Model;
+using WebStore.Web;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddAutoMapper(typeof(MainProfile));
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ZPI")));
+
 
 var app = builder.Build();
 
