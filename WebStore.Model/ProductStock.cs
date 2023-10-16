@@ -1,8 +1,7 @@
 namespace WebStore.Model;
 
-public class OrderProduct
+public class ProductStock
 {
-    public Order? Order { get; set; }
     public Product? Product { get; set; }
     public int Quanitity { get; set; }
 }
