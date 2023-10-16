@@ -7,6 +7,8 @@ namespace WebStore.Model
 {
     public class Supplier : User
     {
+        public int Id { get; set; }
+        public string Name { get; set; }
         public IList<Product> Products { get; set; }
     }
 }

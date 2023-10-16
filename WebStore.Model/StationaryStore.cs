@@ -7,8 +7,10 @@ namespace WebStore.Model
 {
     public class StationaryStore
     {
-        public string StoreName { get; set; }
-        public Address StoreAddress { get; set; }   
-        public StationaryStoreEmployee StationaryEmployee { get; set; } 
+        public int Id {get; set;}
+        public string Name { get; set; }
+        public int AddressId {get; set;}
+        public Address Address { get; set; }  
+        public IList<Customer> Customers {get; set;}       
     }
 }

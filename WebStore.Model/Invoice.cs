@@ -7,9 +7,9 @@ namespace WebStore.Model
 {
     public class Invoice
     {
-        public string NIP { get; set; }
-        public string? REGON { get; set; }      // can be null
-        public IList<Order> Order { get; set; }
-        public DateTime DateOfInvoice { get; set; }
+        public int Id {get; set;}
+        public string InvoiceNumber { get; set; }
+        public int OrderId {get; set;}
+        public Order Order {get; set;}      
     }
 }
