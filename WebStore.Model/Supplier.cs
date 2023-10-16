@@ -1,5 +1,5 @@
 namespace WebStore.Model;
-public class Supplier
+public class Supplier:User
 {
     public IList<Product>? Products { get; set; }
 }
