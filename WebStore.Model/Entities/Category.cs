@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-namespace WebStore.Model.Entities.SubModels
+using System.ComponentModel.DataAnnotations;
+namespace WebStore.Model.Entities
 {
-    [Owned]
+    //[Owned]
     public class Category
     {
         #region properties

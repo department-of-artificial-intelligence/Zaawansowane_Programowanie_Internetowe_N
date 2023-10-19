@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebStore.Model.Entities
 {
@@ -10,8 +11,8 @@ namespace WebStore.Model.Entities
         #region properties
         [Key]
         public int Id {get;set;}
-        public int Quantity
-        public Id ProductId {get;set;}
+        public int Quantity {get;set;}
+        public int ProductId {get;set;}
         public virtual Product Product {get;set;}
         #endregion
     }
