@@ -22,16 +22,16 @@ namespace WebStore.Services.ConcreteServices
             try {
                 if (addOrUpdateProductVm == null)
                     throw new ArgumentNullException ("View model parameter is null");
-                var productEntity = Mapper.Map<Product> (addOrUpdateProductVm);
+                var productEntity = _mapper.Map<Product> (addOrUpdateProductVm);
                 if (addOrUpdateProductVm.Id.HasValue || addOrUpdateProductVm.Id == 0)
-                DbContext.Products.Update (productEntity);
+                _dbContext.Products.Update (productEntity);
                 else
-                    DbContext.Products.Add (productEntity);
-                DbContext.SaveChanges ();
-                var productVm = Mapper.Map<ProductVm> (productEntity);
+                    _dbContext.Products.Add (productEntity);
+                _dbContext.SaveChanges ();
+                var productVm = _mapper.Map<ProductVm> (productEntity);
                 return productVm;
             } catch (Exception ex) {
-            Logger.LogError (ex, ex.Message);
+                _logger.LogError (ex, ex.Message);
             throw;
             }
         }
@@ -41,11 +41,11 @@ namespace WebStore.Services.ConcreteServices
             try {
                 if (filterExpression == null)
                     throw new ArgumentNullException ("Filter expression parameter is null");
-                var productEntity = DbContext.Products.FirstOrDefault (filterExpression);
-                var productVm = Mapper.Map<ProductVm> (productEntity);
+                var productEntity = _dbContext.Products.FirstOrDefault (filterExpression);
+                var productVm = _mapper.Map<ProductVm> (productEntity);
                 return productVm;
             } catch (Exception ex) {
-                Logger.LogError (ex, ex.Message);
+                _logger.LogError (ex, ex.Message);
                 throw;
             }
         }
@@ -53,14 +53,14 @@ namespace WebStore.Services.ConcreteServices
         public IEnumerable<ProductVm> GetProducts(Expression<Func<Product, bool>>? filterExpression = null)
         {
             try {
-                var productsQuery = DbContext.Products.AsQueryable();
+                var productsQuery = _dbContext.Products.AsQueryable();
                 if (filterExpression != null)
                     productsQuery = productsQuery.Where(filterExpression);
-                var productVms = Mapper.Map<IEnumerable<ProductVm>>(productsQuery);
+                var productVms = _mapper.Map<IEnumerable<ProductVm>>(productsQuery);
                 return productVms;
                 } 
             catch (Exception ex) {
-                Logger.LogError (ex, ex.Message);
+                _logger.LogError (ex, ex.Message);
                 throw;
             }
         }
