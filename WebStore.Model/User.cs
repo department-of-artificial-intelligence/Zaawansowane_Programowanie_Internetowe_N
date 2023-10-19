@@ -9,3 +9,5 @@ public class User : IdentityUser
     public string LastName {get; set;}
     public DateTime RegistrationDate {get; set;}
 }
+
+

@@ -7,4 +7,5 @@ public class Order{
     public decimal TotalAmount {get;}
     public long TrackingNumber {get; set;}
     public Invoice Invoice {get;set;}
+    public IList<Product> Products {get; set;}  
 }
