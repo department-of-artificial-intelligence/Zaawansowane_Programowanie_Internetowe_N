@@ -14,7 +14,7 @@ namespace WebStore.Model
         public int BuildingNumber { get; set; }
         public int? ApartmentNumber { get; set; }
         public string Country { get; set; }
-        public ICollection<Customer> Customers { get; set; }
-        public ICollection<StationaryStore> StationaryStores { get; set; }
+        public IList<Customer> Customers { get; set; }
+        public IList<StationaryStore> StationaryStores { get; set; }
     }
 }

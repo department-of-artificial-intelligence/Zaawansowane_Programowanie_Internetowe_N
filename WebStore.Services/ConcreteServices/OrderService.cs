@@ -99,7 +99,6 @@ namespace WebStore.Services.ConcreteServices
                     Quantity = quantity
                 });
 
-                // Zaktualizuj zamówienie w bazie danych
                 DbContext.Orders.Update(orderEntity);
                 DbContext.SaveChanges();
             }
@@ -116,15 +115,11 @@ namespace WebStore.Services.ConcreteServices
 
                 if (orderEntity != null && productEntity != null)
                 {
-                    // Sprawdź, czy produkt istnieje w zamówieniu
                     var orderProduct = orderEntity.OrderProducts.FirstOrDefault(op => op.ProductId == productId);
                     
                     if (orderProduct != null)
                     {
-                        // Usuń produkt z zamówienia
                         orderEntity.OrderProducts.Remove(orderProduct);
-                        
-                        // Zaktualizuj zamówienie w bazie danych
                         DbContext.Orders.Update(orderEntity);
                         DbContext.SaveChanges();
                     }

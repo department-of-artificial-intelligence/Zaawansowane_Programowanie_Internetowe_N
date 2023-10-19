@@ -17,8 +17,8 @@ namespace WebStore.Model
         public int SupplierId { get; set; }
         public Category Category { get; set; }
         public Supplier Supplier { get; set; }
-        public ICollection<ProductStock> Stocks { get; set; }
-        public ICollection<OrderProduct> OrderProducts { get; set; 
+        public IList<ProductStock> Stocks { get; set; }
+        public IList<OrderProduct> OrderProducts { get; set; 
     }
  }
 }

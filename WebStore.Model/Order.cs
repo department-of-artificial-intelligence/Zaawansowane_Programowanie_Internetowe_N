@@ -18,6 +18,6 @@ namespace WebStore.Model
         public Customer Customer { get; set; }
         public Invoice Invoice { get; set; }
 
-        public ICollection<OrderProduct> OrderProducts { get; set; }
+        public IList<OrderProduct> OrderProducts { get; set; }
     }
 }
