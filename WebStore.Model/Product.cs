@@ -10,5 +10,9 @@ public class Product
     public int CategoryId { get; set; }
     public Category? Category { get; set; }
     public float? Weight { get; set; }
+    public IList<ProductStock>? ProductStocks { get; set; } = new List<ProductStock>();
+    public ICollection<OrderProduct>? OrderProducts { get; set; } = new List<OrderProduct>();
+    public int SupplierId { get; set; }
+
 }
 

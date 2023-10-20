@@ -6,6 +6,6 @@ namespace WebStore.Model
         public string? Name { get; set; }
         public int AddressId {get; set;}
         public Address? Address { get; set; }  
-        public IList<Customer>? Customers {get; set;}       
+        public IList<Customer>? Customers {get; set;} = new List<Customer>();     
     }
 }

@@ -1,7 +1,10 @@
 namespace WebStore.Model;
 public class ProductStock
+
 {
-    public Product? Product { get; set; }
-    public Product? Quantity { get; set; }
+        public int Id {get;set;}
+        public int Quantity {get;set;}
+        public int ProductId {get;set;}
+        public virtual Product Product {get;set;}
 
 }

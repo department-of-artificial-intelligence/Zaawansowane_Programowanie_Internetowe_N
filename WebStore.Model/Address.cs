@@ -9,4 +9,7 @@ public class Address
         public string? Street { get; set; }
         public int BuildingNumber { get; set; }
         public int? ApartmentNumber { get; set; }
+        public int CustomerId {get;set;}
+        public virtual Customer Customer {get;set;}
+        public IList<StationaryStore>? StationaryStores { get; set; } = new List<StationaryStore>();
 }
