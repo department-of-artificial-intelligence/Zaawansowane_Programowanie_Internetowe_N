@@ -1,10 +1,15 @@
+using WebStore.Web.Commons.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
 
+//added extensions method for add services
+builder.Services.AddInfrastructure(builder.Configuration);
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

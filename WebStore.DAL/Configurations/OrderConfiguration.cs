@@ -17,15 +17,19 @@ namespace WebStore.DAL.Configurations
             .UsingEntity<OrderProduct>(
                 op => op.HasOne(op => op.Product)
                 .WithMany()
-                .HasForeignKey(op => op.ProductId),
+                .HasForeignKey(op => op.ProductId)
+                .OnDelete(DeleteBehavior.NoAction),
 
                 op => op.HasOne(op => op.Order)
                 .WithMany()
-                .HasForeignKey(op => op.OrderId),
+                .HasForeignKey(op => op.OrderId)
+                .OnDelete(DeleteBehavior.NoAction),
 
                 op => {
                     op.HasKey(op => new {op.ProductId, op.OrderId});
-                });
+                })
+                
+                ;
         }
     }
 }

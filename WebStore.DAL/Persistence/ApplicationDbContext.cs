@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebStore.Model.Entities;
@@ -9,6 +10,10 @@ namespace WebStore.DAL.Persistence
 {
     public class ApplicationDbContext : DbContext
     {
+        private readonly static string _connectionString = "Data Source=localhost; Initial Catalog = WebStore; User ID=sa; Password=123; TrustServerCertificate=True;";
+        public ApplicationDbContext()
+        {
+        }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base (options)
         {
             
@@ -30,6 +35,11 @@ namespace WebStore.DAL.Persistence
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(_connectionString);
         }
     }
 }
