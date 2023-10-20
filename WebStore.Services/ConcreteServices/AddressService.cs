@@ -93,7 +93,7 @@ namespace WebStore.Services.ConcreteServices
             try
             {
                 var addressEntity = DbContext.Addresses.FirstOrDefault(address =>
-                    address.PostalCode == postalCode &&
+                    address.ZipCode == postalCode &&
                     address.City == city &&
                     address.Street == street);
 

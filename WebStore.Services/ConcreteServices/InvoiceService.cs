@@ -1,5 +1,8 @@
 using System.Linq.Expressions;
+using AutoMapper;
+using Microsoft.Extensions.Logging;
 using WebStore.Model;
+using WebStore.Services.Interfaces;
 using WebStore.ViewModels.VM;
 
 namespace WebStore.Services.ConcreteServices

@@ -1,16 +1,14 @@
-using System;
-using System.Linq.Expressions;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebStore.Model;
 using WebStore.Services.Interfaces;
-using WebStore.ViewModels.VM;
 
 namespace WebStore.Services.ConcreteServices
 {
-    public class StationaryStoreService : BaseService, IStationaryStoreService, IOrderService
+    public class StationaryStoreService : BaseService, IStationaryStoreService
     {
-        public StationaryService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, IOrderService orderService) 
+        public StationaryStoreService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger) 
             : base(dbContext, mapper, logger) { }
 
 
@@ -18,7 +16,9 @@ namespace WebStore.Services.ConcreteServices
         {
             try
             {
-                var stationaryStoreEntity = DbContext.StationaryStores.FirstOrDefault(s => s.Id == storeId && s.CustomerId == customerId);
+                 var stationaryStoreEntity = DbContext.StationaryStores
+                    .Include(s => s.Customers) 
+                    .FirstOrDefault(s => s.Id == storeId && s.Customers.Any(c => c.Id == customerId));
 
                 if (stationaryStoreEntity != null)
                 {     
