@@ -8,6 +8,6 @@ public class Address
     public int BuildingNumber {get; set;}
     public int ApartmentNumber {get; set;}
     public string Country {get; set;}
-    
+    public StationaryStore StationaryStore {get;set;}
+    //public Customer Customer {get;set;}
 }
-// INSERT [dbo].[Addresses] ([Id], [City], [ZipCode], [Street], [BuildingNumber], [ApartmentNumber], [Country]) VALUES (1, N'Czestochowa', N'42-200', N'Al. Armii Krajowej', 1, 100, N'Poland')
