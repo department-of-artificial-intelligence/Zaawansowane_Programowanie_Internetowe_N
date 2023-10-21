@@ -9,7 +9,8 @@ public class Product
     public String? Name { get; set; }
     public decimal Price { get; set; }
     public float Weight { get; set; }
-
+    public int CategoryId { get; set; }
+    public int SupplierId { get; set; }
     public Supplier? Supplier { get; set; }
     public Category? Category { get; set; }
     public ICollection<Order>? Orders { get; set; }
