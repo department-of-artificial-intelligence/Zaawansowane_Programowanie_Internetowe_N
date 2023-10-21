@@ -1,5 +1,5 @@
 namespace WebStore.Model;
-public class CategorytModel
+public class CategoryModel
 {
     int id {get; set;}
     string Name {get; set;}
