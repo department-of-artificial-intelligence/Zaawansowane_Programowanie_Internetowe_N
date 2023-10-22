@@ -9,7 +9,11 @@ namespace WebStore.Services.Interfaces
 {
     public interface IStationaryStoreService
     {
-       StationaryStoreVm GetOrderAndSendToCustomer(int storeId, int customerId);
+       StationaryStoreVm AddOrUpdateStore(AddOrUpdateStationaryStoreVm addOrUpdateStationaryStoreVm);
+       StationaryStoreVm GetStore(Expression<Func<StationaryStore, bool>> filterExpression);
+       IEnumerable<StationaryStoreVm> GetStores(Expression<Func<StationaryStore, bool>>? filterExpression = null);
+       void DeleteStore(int storeId);
+       StationaryStoreVm GetOrderAndSendToCustomer(int storeId);
     }
 }
 

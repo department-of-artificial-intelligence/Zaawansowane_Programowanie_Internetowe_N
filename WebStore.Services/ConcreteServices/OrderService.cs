@@ -2,6 +2,7 @@ using System;
 using System.Linq.Expressions;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
+using WebStore.DAL;
 using WebStore.Model;
 using WebStore.Services.Interfaces;
 using WebStore.ViewModels.VM;
@@ -86,40 +87,86 @@ namespace WebStore.Services.ConcreteServices
             }
         }
 
+        public void DeleteOrder(int orderId)
+        {
+            try
+            {
+                var orderEntity = DbContext.Orders.FirstOrDefault(o => o.Id == orderId);
+
+                if (orderEntity == null)
+                {
+                    throw new ArgumentNullException("View model parameter is null");
+                }
+                else
+                {
+                    DbContext.Orders.Remove(orderEntity);
+                }
+                 DbContext.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+
         public OrderVm AddProductToOrder(int orderId, int productId, int quantity)
         {
-            var orderEntity = DbContext.Orders.Find(orderId);
-            var productEntity = DbContext.Products.Find(productId);
-
-            if (orderEntity != null && productEntity != null)
+            try
             {
-                orderEntity.OrderProducts.Add(new OrderProduct
-                {
-                    Product = productEntity,
-                    Quantity = quantity
-                });
+                var orderEntity = DbContext.Orders.FirstOrDefault(o => o.Id == orderId);
+                var productEntity = DbContext.Products.FirstOrDefault(p => p.Id == productId);
 
-                DbContext.Orders.Update(orderEntity);
-                DbContext.SaveChanges();
+                if (orderEntity != null && productEntity != null)
+                {
+                    var orderProductEntity = DbContext.OrderProducts
+                        .FirstOrDefault(op => op.ProductId == productId);
+
+                    if (orderProductEntity != null)
+                    {
+                        orderProductEntity.Quantity += quantity;
+                    }
+                    else
+                    {
+                        orderProductEntity = new OrderProduct
+                        {
+                            ProductId = productId,
+                            OrderId = orderId,
+                            Quantity = quantity,
+                            Product = productEntity,
+                            Order = orderEntity
+                        };
+
+                        DbContext.OrderProducts.Add(orderProductEntity);
+                    }
+                    DbContext.SaveChanges();
+                }
+
+                var updatedOrderEntity = DbContext.Orders.FirstOrDefault(o => o.Id == orderId);
+                var orderVm = Mapper.Map<OrderVm>(updatedOrderEntity);
+                return orderVm;
             }
-            var orderVm = Mapper.Map<OrderVm>(orderEntity);
-            return orderVm;
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
 
         public OrderVm RemoveProductFromOrder(int orderId, int productId)
         {
             try
             {
-                var orderEntity = DbContext.Orders.Find(orderId);
-                var productEntity = DbContext.Products.Find(productId);
+                var orderEntity = DbContext.Orders.FirstOrDefault(o => o.Id == orderId);
+                var productEntity = DbContext.Products.FirstOrDefault(p => p.Id == productId);
 
                 if (orderEntity != null && productEntity != null)
                 {
-                    var orderProduct = orderEntity.OrderProducts.FirstOrDefault(op => op.ProductId == productId);
+                    var orderProduct = DbContext.OrderProducts.FirstOrDefault(op => op.ProductId == productId);
                     
                     if (orderProduct != null)
                     {
-                        orderEntity.OrderProducts.Remove(orderProduct);
+                        DbContext.OrderProducts.Remove(orderProduct);
                         DbContext.Orders.Update(orderEntity);
                         DbContext.SaveChanges();
                     }

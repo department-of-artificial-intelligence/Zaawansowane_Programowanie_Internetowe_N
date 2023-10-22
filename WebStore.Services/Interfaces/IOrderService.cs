@@ -13,6 +13,7 @@ namespace WebStore.Services.Interfaces
         OrderVm AddOrUpdateOrder(AddOrUpdateOrderVm addOrUpdateOrderVm);
         OrderVm GetOrder (Expression<Func<Order, bool>> filterExpression);
         IEnumerable<OrderVm> GetOrders (Expression<Func<Order, bool>> ? filterExpression = null);
+        void DeleteOrder(int orderId);
         OrderVm AddProductToOrder(int orderId, int productId, int quantity);
         OrderVm RemoveProductFromOrder(int orderId, int productId);
     }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using WebStore.DAL;
 using WebStore.Model;
 using WebStore.Services.Interfaces;
 using WebStore.ViewModels.VM;
@@ -51,7 +52,7 @@ namespace WebStore.Services.ConcreteServices
         {
             try
             {
-                var addressEntity = DbContext.Addresses.Find(addressId);
+                var addressEntity = DbContext.Addresses.FirstOrDefault(a => a.Id == addressId);
 
                 if (addressEntity == null)
                 {

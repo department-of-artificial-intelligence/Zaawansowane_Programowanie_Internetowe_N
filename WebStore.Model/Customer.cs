@@ -1,15 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using WebStore.Model;
 
-namespace WebStore.Model
-{
-    public class Customer : User
-    {
-        public int Id {get; set;}
-        public Address BillingAddress { get; set; }
-        public IList<Order> Orders { get; set; }
-        public Address ShippingAddress { get; set; }
-    }
+public class Customer : User
+{ 
+   [Key]
+   public int Id {get; set;}
+   public virtual IList<Address> Addresses {get; set;} = new List<Address>();
+   public virtual IList<Order> Orders {get; set;}  = new List<Order>();
 }
+

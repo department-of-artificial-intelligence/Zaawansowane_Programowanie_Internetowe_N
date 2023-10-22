@@ -1,3 +1,5 @@
+using WebStore.Model;
+
 namespace WebStore.ViewModels.VM
 {
     public class AddressVm
@@ -8,5 +10,6 @@ namespace WebStore.ViewModels.VM
         public int BuildingNumber { get; set; }
         public int? ApartmentNumber { get; set; }
         public string Country { get; set; }
+        public CustomerVm Customer {get; set;}
     }
 }

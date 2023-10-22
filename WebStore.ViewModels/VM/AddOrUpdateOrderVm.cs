@@ -9,7 +9,6 @@ namespace WebStore.ViewModels.VM
     public class AddOrUpdateOrderVm
     {
         public int? Id {get; set;}
-        public int CustomerId { get; set; }
         [Required]
         public DateTime DeliveryDate { get; set; } = default!;
         [Required]
@@ -18,5 +17,8 @@ namespace WebStore.ViewModels.VM
         public decimal TotalAmount { get; set; }
         [Required]
         public long TrackingNumber { get; set; }
+        public int StationaryStoreId {get; set;}
+        public int CustomerId { get; set; }
+        public int InvoiceId {get; set;}
     }
 }

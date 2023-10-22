@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using WebStore.DAL;
 
 namespace WebStore.Services.ConcreteServices
 {
@@ -13,6 +14,8 @@ namespace WebStore.Services.ConcreteServices
         protected readonly ApplicationDbContext DbContext;
         protected readonly ILogger Logger;
         protected readonly IMapper Mapper;
+        private ApplicationDbContext dbContext;
+
         public BaseService (ApplicationDbContext dbContext,
             IMapper mapper, ILogger logger) {
             DbContext = dbContext;

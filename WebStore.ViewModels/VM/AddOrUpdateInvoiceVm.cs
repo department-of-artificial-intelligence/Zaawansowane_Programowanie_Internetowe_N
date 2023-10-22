@@ -4,6 +4,6 @@ namespace WebStore.ViewModels.VM
     {
         public int? Id { get; set; }
         public string InvoiceNumber { get; set; }
-        public int OrderId { get; set; }
+        public DateTime InvoiceDate {get; set;}
     }
 }

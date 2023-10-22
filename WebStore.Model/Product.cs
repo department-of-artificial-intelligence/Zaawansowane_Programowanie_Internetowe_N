@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebStore.Model
 {
     public class Product
     {
+        [Key]
         public int Id { get; set; }
         public string Description { get; set; }
         public byte[] ImageBytes { get; set; }
@@ -17,8 +17,7 @@ namespace WebStore.Model
         public int SupplierId { get; set; }
         public Category Category { get; set; }
         public Supplier Supplier { get; set; }
-        public IList<ProductStock> Stocks { get; set; }
-        public IList<OrderProduct> OrderProducts { get; set; 
+        public IList<ProductStock> Stocks { get; set; } = new List<ProductStock>();
+        public virtual IList<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
     }
- }
 }

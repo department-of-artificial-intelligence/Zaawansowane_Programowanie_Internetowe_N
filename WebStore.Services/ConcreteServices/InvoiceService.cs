@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
+using WebStore.DAL;
 using WebStore.Model;
 using WebStore.Services.Interfaces;
 using WebStore.ViewModels.VM;
@@ -85,44 +86,27 @@ namespace WebStore.Services.ConcreteServices
             }
         }
 
-        public InvoiceVm CreateInvoiceFromOrder(int orderId)
+        public void DeleteInvoice(int invoiceId)
         {
             try
             {
-                var orderEntity = DbContext.Orders.Find(orderId);
+                var invoiceEntity = DbContext.Invoices.FirstOrDefault(i => i.Id == invoiceId);
 
-                if (orderEntity == null)
+                if (invoiceEntity == null)
                 {
-                    return null;
+                    throw new ArgumentNullException("View model parameter is null");
                 }
-
-                var invoiceEntity = new Invoice
+                else
                 {
-                    InvoiceNumber = GenerateInvoiceNumber(), 
-                    Order = orderEntity
-                };
-
-                DbContext.Invoices.Add(invoiceEntity);
-                DbContext.SaveChanges();
-
-                var invoiceVm = Mapper.Map<InvoiceVm>(invoiceEntity);
-                return invoiceVm;
+                    DbContext.Invoices.Remove(invoiceEntity);
+                }
+                 DbContext.SaveChanges();
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Logger.LogError(ex, ex.Message);
                 throw;
             }
-        }
-
-        private string GenerateInvoiceNumber()
-        {
-            var currentDateTime = DateTime.Now;
-            var randomPart = Guid.NewGuid().ToString().Substring(0, 6); // Losowy ciąg znaków
-
-            var invoiceNumber = $"{currentDateTime:yyyyMMddHHmmss}-{randomPart}";
-
-            return invoiceNumber;
         }
     }
 }
