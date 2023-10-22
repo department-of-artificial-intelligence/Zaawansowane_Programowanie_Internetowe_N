@@ -25,6 +25,8 @@ namespace WebStore.DAL.EF
         public DbSet<StationaryStoreEmployee> StationaryStoreEmployees { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Invoice> Invoice { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
         {
