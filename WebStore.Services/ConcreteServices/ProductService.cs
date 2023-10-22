@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WebStore.Model;
 using WebStore.Services.Interfaces;
@@ -68,5 +69,10 @@ public class ProductService : BaseService, IProductService
             Logger.LogError(ex, ex.Message);
             throw;
         }
+    }
+
+    public IActionResult DeleteProduct(Expression<Func<Product, bool>> filterExpression)
+    {
+        return null;
     }
 }

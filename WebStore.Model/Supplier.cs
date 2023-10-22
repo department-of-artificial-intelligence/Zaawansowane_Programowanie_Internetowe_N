@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebStore.Model;
 
-public class Supplier
+public class Supplier : User
 {
     [Key]
     public int Id { get; set; }

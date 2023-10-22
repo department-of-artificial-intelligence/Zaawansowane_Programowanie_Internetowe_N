@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Microsoft.AspNetCore.Mvc;
 using WebStore.Model;
 using WebStore.ViewModels.Models;
 
@@ -9,5 +10,5 @@ public interface IProductService
     ProductViewModel AddOrUpdateProduct (AddOrUpdateProductViewModel addOrUpdateProductVm);
     ProductViewModel GetProduct (Expression<Func<Product, bool>> filterExpression);
     IEnumerable<ProductViewModel> GetProducts (Expression<Func<Product, bool>> ? filterExpression = null);
-
+    IActionResult DeleteProduct(Expression<Func<Product, bool>> filterExpression);
 }

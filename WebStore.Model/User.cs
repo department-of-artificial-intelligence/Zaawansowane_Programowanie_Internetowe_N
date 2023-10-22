@@ -1,12 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace WebStore.Model;
 
-public class User
+public class User : IdentityUser<int>
 {
-    [Key]
-    public int Id { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public DateTime RegistrationDate { get; set; }

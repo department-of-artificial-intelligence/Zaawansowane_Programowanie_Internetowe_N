@@ -2,7 +2,7 @@
 
 namespace WebStore.Model;
 
-public class Customer
+public class Customer : User
 {
     [Key]
     public int Id { get; set; }

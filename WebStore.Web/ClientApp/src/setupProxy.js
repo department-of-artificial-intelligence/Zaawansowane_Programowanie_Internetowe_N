@@ -12,6 +12,11 @@ const onError = (err, req, resp, target) => {
     console.error(`${err.message}`);
 }
 
+const context = [
+    "api/",
+    "swagger"
+]
+
 module.exports = function (app) {
   const appProxy = createProxyMiddleware(context, {
     target: target,
