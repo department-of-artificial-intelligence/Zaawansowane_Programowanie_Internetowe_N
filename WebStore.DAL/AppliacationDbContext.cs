@@ -6,8 +6,8 @@ namespace WebStore.DAL;
 
 public class ApplicationDbContext : DbContext
 {
-        public DbSet<Address> Address { get; set; }
-        public DbSet<Category> Category { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderProduct> OrderProducts { get; set; }
@@ -17,6 +17,7 @@ public class ApplicationDbContext : DbContext
         public DbSet<StationaryStoreEmployee> StationaryStoreEmployees { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
 
     public ApplicationDbContext()
     {
