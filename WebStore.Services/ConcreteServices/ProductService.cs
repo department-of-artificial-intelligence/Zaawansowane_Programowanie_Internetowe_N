@@ -36,6 +36,27 @@ namespace WebStore.Services.ConcreteServices
             }
         }
 
+        public async Task<bool> DeleteProductAsync(Expression<Func<Product, bool>> filterExpression)
+        {
+            try{
+                if(filterExpression is null)
+                    return false;
+                var extractedEntity = await _dbContext.Products
+                    .Where(filterExpression)
+                    .FirstOrDefaultAsync();
+                if(extractedEntity is Product){
+                    _dbContext.Remove(extractedEntity);
+                    await _dbContext.SaveChangesAsync();
+                    return true;
+                }
+                return false;
+            }
+            catch(Exception ex){
+                _logger.LogError(ex, $"Exception message = {ex.Message}{System.Environment.NewLine} Exception StackTrace = {ex.StackTrace}{System.Environment.NewLine}");
+                throw;
+            }
+        }
+
         public ProductVm GetProduct(Expression<Func<Product, bool>> filterExpression)
         {
             try {

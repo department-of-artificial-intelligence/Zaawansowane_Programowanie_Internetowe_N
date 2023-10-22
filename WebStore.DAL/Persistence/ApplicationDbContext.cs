@@ -13,11 +13,12 @@ namespace WebStore.DAL.Persistence
     public class ApplicationDbContext : DbContext
     {
         //private readonly static string _connectionString = "Data Source=localhost; Initial Catalog = WebStore; User ID=sa; Password=123; TrustServerCertificate=True;";
-        /*
+        
+        private readonly static string _connectionString = "Server=(localdb)\\mssqllocaldb;Database=WebStoreAppDbDygas;Trusted_Connection=True;MultipleActiveResultSets=true";
         public ApplicationDbContext()
         {
         }
-        */
+        
         
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base (options)
         {            
@@ -40,12 +41,12 @@ namespace WebStore.DAL.Persistence
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
         }
-        /*
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseSqlServer(_connectionString);
+            optionsBuilder.UseSqlServer(_connectionString);
         }
-        */
+        
         
         
     }
