@@ -10,6 +10,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddAutoMapper(typeof(MainProfile));
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ZPI")));
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); 
 
 
 var app = builder.Build();

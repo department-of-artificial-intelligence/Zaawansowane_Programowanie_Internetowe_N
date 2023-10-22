@@ -4,12 +4,19 @@ namespace WebStore.Model;
 
 public class ApplicationDbContext : DbContext
 {
-    public DbContextOptions _dbContext;
-    
-    public ApplicationDbContext(DbContextOptions dbContext)
+    public static ApplicationDbContext Create()
     {
-        _dbContext = dbContext;
+        return new ApplicationDbContext();
     }
+    public ApplicationDbContext(DbContextOptions options) : base(options)
+    {
+    }
+
+    private ApplicationDbContext()
+    {
+        throw new NotImplementedException();
+    }
+
     public DbSet<Address> Addresses { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Customer> Customers { get; set; }
