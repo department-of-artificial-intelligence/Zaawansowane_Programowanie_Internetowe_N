@@ -1,3 +1,9 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using WebStore.Model;
+
 using WebStore.DAL;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ApplicationDbContext>();
+
+
 
 var app = builder.Build();
 

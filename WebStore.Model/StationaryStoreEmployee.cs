@@ -2,6 +2,7 @@
 public class StationaryStoreEmployee : User
 {
     public string JobTitle {get;set;}
-    public StationaryStore StationaryStore {get;set;}
+    public int StationaryStoreId {get;set;}
+    public virtual StationaryStore StationaryStore {get;set;}
 
 }

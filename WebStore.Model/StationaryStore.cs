@@ -5,8 +5,8 @@ public class StationaryStore
 {
    public int Id {get;set;}
    public string Name {get;set;}
-   public IList<Address> Address {get;set;}
-   public IList<StationaryStoreEmployee> StationaryStoreEmployees {get;set;}
+   public virtual IList<Address> Address {get;set;} = new List<Address>();
+   public virtual IList<StationaryStoreEmployee> StationaryStoreEmployees {get;set;} = new List<StationaryStoreEmployee>();
 
 }
 
