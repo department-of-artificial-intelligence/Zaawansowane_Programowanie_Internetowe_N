@@ -12,8 +12,8 @@ using WebStore.DAL;
 namespace WebStore.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231023201626_m2")]
-    partial class m2
+    [Migration("20231023205505_n2")]
+    partial class n2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -179,9 +179,6 @@ namespace WebStore.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CustomerId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("StationaryStoreId")
                         .HasColumnType("int");
 
@@ -194,8 +191,6 @@ namespace WebStore.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
 
                     b.HasIndex("StationaryStoreId");
 
@@ -456,6 +451,16 @@ namespace WebStore.DAL.Migrations
                 {
                     b.HasBaseType("WebStore.Model.User");
 
+                    b.Property<int?>("BilingAddressId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ShippingAddressId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("BilingAddressId");
+
+                    b.HasIndex("ShippingAddressId");
+
                     b.HasDiscriminator().HasValue(1);
                 });
 
@@ -535,12 +540,8 @@ namespace WebStore.DAL.Migrations
 
             modelBuilder.Entity("WebStore.Model.Address", b =>
                 {
-                    b.HasOne("WebStore.Model.Customer", null)
-                        .WithMany("Addresses")
-                        .HasForeignKey("CustomerId");
-
                     b.HasOne("WebStore.Model.StationaryStore", null)
-                        .WithMany("Address")
+                        .WithMany("Addresses")
                         .HasForeignKey("StationaryStoreId");
                 });
 
@@ -608,6 +609,21 @@ namespace WebStore.DAL.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("WebStore.Model.Customer", b =>
+                {
+                    b.HasOne("WebStore.Model.Address", "BilingAddress")
+                        .WithMany()
+                        .HasForeignKey("BilingAddressId");
+
+                    b.HasOne("WebStore.Model.Address", "ShippingAddress")
+                        .WithMany()
+                        .HasForeignKey("ShippingAddressId");
+
+                    b.Navigation("BilingAddress");
+
+                    b.Navigation("ShippingAddress");
+                });
+
             modelBuilder.Entity("WebStore.Model.StationaryStoreEmployee", b =>
                 {
                     b.HasOne("WebStore.Model.StationaryStore", "StationaryStore")
@@ -636,15 +652,13 @@ namespace WebStore.DAL.Migrations
 
             modelBuilder.Entity("WebStore.Model.StationaryStore", b =>
                 {
-                    b.Navigation("Address");
+                    b.Navigation("Addresses");
 
                     b.Navigation("StationaryStoreEmployees");
                 });
 
             modelBuilder.Entity("WebStore.Model.Customer", b =>
                 {
-                    b.Navigation("Addresses");
-
                     b.Navigation("Orders");
                 });
 

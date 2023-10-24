@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebStore.DAL.Migrations
 {
-    public partial class m1 : Migration
+    public partial class n1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -86,6 +86,30 @@ namespace WebStore.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Addresses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BuildingNumber = table.Column<int>(type: "int", nullable: false),
+                    ApartmentNumber = table.Column<int>(type: "int", nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AddressId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Addresses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Addresses_StationaryStores_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "StationaryStores",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
@@ -95,6 +119,8 @@ namespace WebStore.DAL.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserType = table.Column<int>(type: "int", nullable: false),
+                    BilingAddressId = table.Column<int>(type: "int", nullable: true),
+                    ShippingAddressId = table.Column<int>(type: "int", nullable: true),
                     JobTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StationaryStoreId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -116,41 +142,21 @@ namespace WebStore.DAL.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_AspNetUsers_Addresses_BilingAddressId",
+                        column: x => x.BilingAddressId,
+                        principalTable: "Addresses",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Addresses_ShippingAddressId",
+                        column: x => x.ShippingAddressId,
+                        principalTable: "Addresses",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_AspNetUsers_StationaryStores_StationaryStoreId",
                         column: x => x.StationaryStoreId,
                         principalTable: "StationaryStores",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Addresses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BuildingNumber = table.Column<int>(type: "int", nullable: false),
-                    ApartmentNumber = table.Column<int>(type: "int", nullable: false),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: true),
-                    StationaryStoreId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Addresses", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Addresses_AspNetUsers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Addresses_StationaryStores_StationaryStoreId",
-                        column: x => x.StationaryStoreId,
-                        principalTable: "StationaryStores",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -344,14 +350,9 @@ namespace WebStore.DAL.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Addresses_CustomerId",
+                name: "IX_Addresses_AddressId",
                 table: "Addresses",
-                column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Addresses_StationaryStoreId",
-                table: "Addresses",
-                column: "StationaryStoreId");
+                column: "AddressId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -384,6 +385,16 @@ namespace WebStore.DAL.Migrations
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_BilingAddressId",
+                table: "AspNetUsers",
+                column: "BilingAddressId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_ShippingAddressId",
+                table: "AspNetUsers",
+                column: "ShippingAddressId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_StationaryStoreId",
@@ -431,9 +442,6 @@ namespace WebStore.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Addresses");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -471,6 +479,9 @@ namespace WebStore.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Addresses");
 
             migrationBuilder.DropTable(
                 name: "StationaryStores");

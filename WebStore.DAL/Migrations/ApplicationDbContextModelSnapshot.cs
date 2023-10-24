@@ -449,13 +449,13 @@ namespace WebStore.DAL.Migrations
                 {
                     b.HasBaseType("WebStore.Model.User");
 
-                    b.Property<int?>("BillingAddressId")
+                    b.Property<int?>("BilingAddressId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ShippingAddressId")
                         .HasColumnType("int");
 
-                    b.HasIndex("BillingAddressId");
+                    b.HasIndex("BilingAddressId");
 
                     b.HasIndex("ShippingAddressId");
 
@@ -539,7 +539,7 @@ namespace WebStore.DAL.Migrations
             modelBuilder.Entity("WebStore.Model.Address", b =>
                 {
                     b.HasOne("WebStore.Model.StationaryStore", null)
-                        .WithMany("Address")
+                        .WithMany("Addresses")
                         .HasForeignKey("StationaryStoreId");
                 });
 
@@ -609,15 +609,15 @@ namespace WebStore.DAL.Migrations
 
             modelBuilder.Entity("WebStore.Model.Customer", b =>
                 {
-                    b.HasOne("WebStore.Model.Address", "BillingAddress")
+                    b.HasOne("WebStore.Model.Address", "BilingAddress")
                         .WithMany()
-                        .HasForeignKey("BillingAddressId");
+                        .HasForeignKey("BilingAddressId");
 
                     b.HasOne("WebStore.Model.Address", "ShippingAddress")
                         .WithMany()
                         .HasForeignKey("ShippingAddressId");
 
-                    b.Navigation("BillingAddress");
+                    b.Navigation("BilingAddress");
 
                     b.Navigation("ShippingAddress");
                 });
@@ -650,7 +650,7 @@ namespace WebStore.DAL.Migrations
 
             modelBuilder.Entity("WebStore.Model.StationaryStore", b =>
                 {
-                    b.Navigation("Address");
+                    b.Navigation("Addresses");
 
                     b.Navigation("StationaryStoreEmployees");
                 });

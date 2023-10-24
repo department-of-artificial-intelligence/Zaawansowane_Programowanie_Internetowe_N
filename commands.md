@@ -1,7 +1,7 @@
 
 ### create migration with name Initial
 ```console
-dotnet ef migrations add Initial15 --project WebStore.DAL/WebStore.DAL.csproj --startup-project WebStore.Web/WebStore.Web.csproj
+dotnet ef migrations add n1 --project WebStore.DAL/WebStore.DAL.csproj --startup-project WebStore.Web/WebStore.Web.csproj
 ```
 
 ### remove the newest migration
