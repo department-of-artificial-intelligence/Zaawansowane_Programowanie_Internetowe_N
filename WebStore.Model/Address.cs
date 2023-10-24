@@ -16,9 +16,9 @@ namespace WebStore.Model
       public int BuildingNumber {get; set;}
       public int? ApartmentNumber {get; set;}
       public string Country {get; set;}
-      public int CustomerId {get; set;}
-      public Customer Customer {get; set;}
-      public int StationaryStoreId {get; set;}
-      public virtual StationaryStore StationaryStore {get;set;}
+      // public int CustomerId {get; set;}
+      // public Customer Customer {get; set;}
+      // public int StationaryStoreId {get; set;}
+      // public virtual StationaryStore StationaryStore {get;set;}
     }
 }

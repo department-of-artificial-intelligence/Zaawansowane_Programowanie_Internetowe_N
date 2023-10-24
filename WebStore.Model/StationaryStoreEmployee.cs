@@ -8,8 +8,6 @@ namespace WebStore.Model
 {
     public class StationaryStoreEmployee : User
     {
-        [Key]
-         public int Id {get; set;}
          public string JobPosition {get;set;}
          public int StationaryStoreId {get; set;}
          public virtual StationaryStore StationaryStore {get;set;}

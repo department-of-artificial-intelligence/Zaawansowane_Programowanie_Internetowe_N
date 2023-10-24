@@ -18,6 +18,6 @@ namespace WebStore.Model
         public Category Category { get; set; }
         public Supplier Supplier { get; set; }
         public IList<ProductStock> Stocks { get; set; } = new List<ProductStock>();
-        public virtual IList<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
+        public virtual IList<Order> Orders { get; set; } = new List<Order>();
     }
 }

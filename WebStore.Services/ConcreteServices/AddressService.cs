@@ -111,6 +111,28 @@ namespace WebStore.Services.ConcreteServices
                 Logger.LogError(ex, ex.Message);
                 throw;
             }
+        }
+        public void DeleteAddress(int addressId)
+        {
+            try
+            {
+                var addressEntity = DbContext.Addresses.FirstOrDefault(p => p.Id == addressId);
+
+                if (addressEntity == null)
+                {
+                    throw new ArgumentNullException("View model parameter is null");
+                }
+                else
+                {
+                    DbContext.Addresses.Remove(addressEntity);
+                }
+                 DbContext.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
         }     
     }
 }

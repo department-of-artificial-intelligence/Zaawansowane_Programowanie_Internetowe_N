@@ -12,6 +12,6 @@ namespace WebStore.Services.Interfaces
         AddressVm AddOrUpdateAddress(AddOrUpdateAddressVm addOrUpdateAddressVm);
         AddressVm GetAddress(int addressId);
         IEnumerable<AddressVm> GetAddresses(Expression<Func<Address, bool>>? filterExpression = null);
-        AddressVm FindAddress(string postalCode, string city, string street);
+        void DeleteAddress(int addressId);
     }
 }

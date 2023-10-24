@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using WebStore.Model;
+using Microsoft.Extensions.Configuration;
 
 namespace WebStore.DAL;
 public class ApplicationDbContext : DbContext
@@ -18,26 +19,24 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+         modelBuilder.Entity<Order>()
+        .HasMany(e => e.Products)
+        .WithMany(e => e.Orders)
+        .UsingEntity<OrderProduct>(
+           j => j.Property(e => e.Quantity)
+        );
 
-    //     // Configure the relationships
-    // modelBuilder.Entity<Customer>()
-    //     .HasOne(c => c.BillingAddress)
-    //     .WithMany()
-    //     .HasForeignKey(c => c.BillingAddressId);
-
-    // modelBuilder.Entity<Customer>()
-    //     .HasOne(c => c.ShippingAddress)
-    //     .WithMany()
-    //     .HasForeignKey(c => c.ShippingAddressId);
-
-    // Add other configurations for your entities here
-
-    // Call the base OnModelCreating method to apply any additional configurations
-    base.OnModelCreating(modelBuilder);
+         modelBuilder.Entity<User>()
+            .HasDiscriminator<int>("UserType")
+            .HasValue<Customer>(1)
+            .HasValue<Supplier>(2)
+            .HasValue<StationaryStoreEmployee>(3);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {   
-        optionsBuilder.UseSqlServer("Server=DESKTOP-13RDMPJ;Database=WebStoreDb;Trusted_Connection=True;");
+        // optionsBuilder.UseSqlServer("Server=DESKTOP-13RDMPJ;Database=WebStoreDb;Trusted_Connection=True;");
+        optionsBuilder.UseSqlServer("Server=DESKTOP-PMQSLJ5\\SQLEXPRESS; Database=WebStoreDb; Trusted_Connection=True;");   
+    
     }
 }

@@ -16,6 +16,6 @@ namespace WebStore.Model
         public virtual Customer Customer { get; set; }
         public int InvoiceId { get; set; }
         public virtual Invoice Invoice { get; set; }
-        public virtual IList<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
+        public virtual IList<Product> Products { get; set; } = new List<Product>();
     }
 }
