@@ -21,7 +21,7 @@ namespace WebStore.Services.ConcreteServices
         {
         }
 
-        public async Task<OrderVm?> GetOrderByIdAsync(Expression<Func<Order, bool>> filterExpression)
+        public async Task<OrderVm?> GetOrderById(Expression<Func<Order, bool>> filterExpression)
         {
             try{
                 if(filterExpression is null)
@@ -42,7 +42,7 @@ namespace WebStore.Services.ConcreteServices
             }
         }
 
-        public async Task<IList<OrderVm>?> GetOrdersAsync(Expression<Func<Order, bool>> filterExpression)
+        public async Task<IList<OrderVm>?> GetOrders(Expression<Func<Order, bool>> filterExpression)
         {
             try{
                 if(filterExpression is null)

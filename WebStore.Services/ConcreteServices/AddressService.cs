@@ -19,7 +19,7 @@ namespace WebStore.Services.ConcreteServices
         {
         }
 
-        public async Task<IList<AddressVm>?> GetAddressesAsync(Expression<Func<Address, bool>>? filterExpression = null)
+        public async Task<IList<AddressVm>?> GetAddresses(Expression<Func<Address, bool>>? filterExpression = null)
         {
             try{
                 IList<Address> rawAddresses= new List<Address>();
@@ -50,7 +50,7 @@ namespace WebStore.Services.ConcreteServices
             }
         }
 
-        public async Task<IList<AddressVm>?> GetAdressesByCustomerIdAsync(Expression<Func<Address, bool>> filterExpression)
+        public async Task<IList<AddressVm>?> GetAdressesByCustomerId(Expression<Func<Address, bool>> filterExpression)
         {
             try{
                 

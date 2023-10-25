@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebStore.DAL;
 using WebStore.Model;
@@ -48,6 +49,26 @@ namespace WebStore.Services.ConcreteServices
             catch (Exception ex)
             {
                 Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+   public async Task<bool> DeleteProduct(Expression<Func<Product, bool>> filterExpression)
+        {
+            try{
+                if(filterExpression is null)
+                    return false;
+                var extractedEntity = await DbContext.Products
+                    .Where(filterExpression)
+                    .FirstOrDefaultAsync();
+                if(extractedEntity is Product){
+                    DbContext.Remove(extractedEntity);
+                    await DbContext.SaveChangesAsync();
+                    return true;
+                }
+                return false;
+            }
+            catch(Exception ex){
+                Logger.LogError(ex, $"Exception message = {ex.Message}{System.Environment.NewLine} Exception StackTrace = {ex.StackTrace}{System.Environment.NewLine}");
                 throw;
             }
         }

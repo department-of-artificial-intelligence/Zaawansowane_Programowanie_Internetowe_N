@@ -10,7 +10,7 @@ namespace WebStore.Services.Interfaces
 {
     public interface IAddressService
     {
-        public Task<IList<AddressVm>?> GetAdressesByCustomerIdAsync(Expression<Func<Address,bool>> filterExpression);
-        public Task<IList<AddressVm>?> GetAddressesAsync(Expression<Func<Address, bool>>? filterExpression = null);
+        public Task<IList<AddressVm>?> GetAdressesByCustomerId(Expression<Func<Address,bool>> filterExpression);
+        public Task<IList<AddressVm>?> GetAddresses(Expression<Func<Address, bool>>? filterExpression = null);
     }
 }

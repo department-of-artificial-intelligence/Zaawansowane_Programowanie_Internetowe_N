@@ -19,7 +19,7 @@ namespace WebStore.Services.ConcreteServices
         {
         }
 
-        public async Task<(StationaryStoreVm stationaryStoreVm, bool isExtracted)?> GetStoreByIdAsync(Expression<Func<StationaryStore, bool>> filterExpression)
+        public async Task<(StationaryStoreVm stationaryStoreVm, bool isExtracted)?> GetStoreById(Expression<Func<StationaryStore, bool>> filterExpression)
         {
             try{
                 if(filterExpression is null)
@@ -38,7 +38,7 @@ namespace WebStore.Services.ConcreteServices
             }
         }
 
-        public async Task<(IList<StationaryStoreVm>, bool isExtracted)?> GetStoresAsync(Expression<Func<StationaryStore, bool>> filterExpression)
+        public async Task<(IList<StationaryStoreVm>, bool isExtracted)?> GetStores(Expression<Func<StationaryStore, bool>> filterExpression)
         {
             try{
                 IList<StationaryStore> rawResults = new List<StationaryStore>();

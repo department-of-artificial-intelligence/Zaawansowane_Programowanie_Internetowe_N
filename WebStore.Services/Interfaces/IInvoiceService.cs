@@ -10,7 +10,7 @@ namespace WebStore.Services.Interfaces
 {
     public interface IInvoiceService
     {
-        public Task<(IList<InvoiceVm> invoiceResults, bool isExtracted)?> GetInvoicesAsync(Expression<Func<Invoice, bool>>? filterExpression = null);
-        public Task<(InvoiceVm invoice, bool isExtracted)?> GetInvoiceByIdAsync(Expression<Func<Invoice,bool>>? filterExpression =null);
+        public Task<(IList<InvoiceVm> invoiceResults, bool isExtracted)?> GetInvoices(Expression<Func<Invoice, bool>>? filterExpression = null);
+        public Task<(InvoiceVm invoice, bool isExtracted)?> GetInvoiceById(Expression<Func<Invoice,bool>>? filterExpression =null);
     }
 }

@@ -10,7 +10,7 @@ namespace WebStore.Services.Interfaces
 {
     public interface IStoreService
     {
-        public Task<(IList<StationaryStoreVm>, bool isExtracted)?> GetStoresAsync(Expression<Func<StationaryStore, bool>>? filterExpression = null);
-        public Task<(StationaryStoreVm stationaryStoreVm, bool isExtracted)?> GetStoreByIdAsync(Expression<Func<StationaryStore, bool>>? filterExpression = null);
+        public Task<(IList<StationaryStoreVm>, bool isExtracted)?> GetStores(Expression<Func<StationaryStore, bool>>? filterExpression = null);
+        public Task<(StationaryStoreVm stationaryStoreVm, bool isExtracted)?> GetStoreById(Expression<Func<StationaryStore, bool>>? filterExpression = null);
     }
 }

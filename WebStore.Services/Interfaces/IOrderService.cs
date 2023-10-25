@@ -10,7 +10,7 @@ namespace WebStore.Services.Interfaces
 {
     public interface IOrderService
     {
-        public Task<OrderVm?> GetOrderByIdAsync(Expression<Func<Order,bool>> filterExpression);
-        public Task<IList<OrderVm>?> GetOrdersAsync(Expression<Func<Order, bool>>? filterExpression = null);
+        public Task<OrderVm?> GetOrderById(Expression<Func<Order,bool>> filterExpression);
+        public Task<IList<OrderVm>?> GetOrders(Expression<Func<Order, bool>>? filterExpression = null);
     }
 }
