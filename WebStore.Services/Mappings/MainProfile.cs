@@ -36,6 +36,9 @@ namespace WebStore.Services.Mappings
 
             CreateMap<StationaryStore, StationaryStoreVm>();
             CreateMap<StationaryStoreVm, StationaryStore>();
+
+            CreateMap<RegisterUserVm, User>();
+            CreateMap<User, RegisterUserVm>();
         }
     }
 }

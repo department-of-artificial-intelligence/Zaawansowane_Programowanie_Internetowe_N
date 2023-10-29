@@ -8,7 +8,7 @@ namespace WebStore.Model.Entities
     public class Supplier : User
     {
         #region properties
-        public virtual IList<Product> Products {get;set;} = new List<Product>();
+        public virtual IList<Product>? Products {get;set;} = new List<Product>();
         #endregion
     }
 }

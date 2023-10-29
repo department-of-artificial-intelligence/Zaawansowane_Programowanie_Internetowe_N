@@ -11,11 +11,11 @@ namespace WebStore.Model.Entities
         #region properties
         [Key]
         public int Id {get;set;}
-        public DateTime DeliveryDate {get;set;}
-        public DateTime OrderDate {get;set;}
-        public decimal TotalAmount { get; set; }
-        public long TrackingNumber { get; set; }
-        public virtual IList<Order> Orders {get;set;} = new List<Order>();
+        public DateTime? DeliveryDate {get;set;}
+        public DateTime? OrderDate {get;set;}
+        public decimal? TotalAmount { get; set; }
+        public long? TrackingNumber { get; set; }
+        public virtual IList<Order>? Orders {get;set;} = new List<Order>();
         #endregion
     }
 }

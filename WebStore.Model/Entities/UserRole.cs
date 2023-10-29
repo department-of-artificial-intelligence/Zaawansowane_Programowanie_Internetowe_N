@@ -1,15 +1,16 @@
+﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace WebStore.Model.Entities
 {
-    public class Customer : User
+    public class UserRole : IdentityRole<int>
     {
         #region properties
-        public virtual IList<Address>? Addresses { get;set; } = new List<Address>();
-        public virtual IList<Order>? Orders {get;set;} = new List<Order>();
+
         #endregion
     }
 }

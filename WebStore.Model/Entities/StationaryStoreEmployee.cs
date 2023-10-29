@@ -11,8 +11,8 @@ namespace WebStore.Model.Entities
         #region properties
         [Key]
         public int Id {get; set;}
-        public int StationaryStoreId {get;set;}
-        public virtual StationaryStore StationaryStore {get;set;}
+        public int? StationaryStoreId {get;set;}
+        public virtual StationaryStore? StationaryStore {get;set;}
         #endregion
     }
 }

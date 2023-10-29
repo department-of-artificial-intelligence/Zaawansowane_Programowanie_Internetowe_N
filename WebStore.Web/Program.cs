@@ -10,13 +10,27 @@ using WebStore.Services.ConcreteServices;
 using WebStore.Services.Mappings;
 using WebStore.Services.Interfaces;
 using WebStore.ViewModels.ViewModels;
+using WebStore.Web.Commons.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddAutoMapper(typeof(MainProfile));
+/*
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
  options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")) //here you can define a database type.
 );
+*/
+
+//add services
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IAddressService, AddressService>();
+builder.Services.AddScoped<IInvoiceService, InvoiceService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IStoreService, StoreService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+
+
 builder.Services.Configure<JwtOptionsVm>(options => builder.Configuration.GetSection("JwtOptions").Bind(options));
 builder.Services.AddIdentity<User, IdentityRole<int>>(o =>
 {
@@ -29,6 +43,12 @@ builder.Services.AddIdentity<User, IdentityRole<int>>(o =>
 .AddUserManager<UserManager<User>>()
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
+
+
+//add dbcontext
+builder.Services.AddInfrastructure(builder.Configuration);
+
+
 builder.Services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
 builder.Services.AddTransient(typeof(ILogger), typeof(Logger<Program>));
 builder.Services.AddAuthentication(options =>
@@ -97,9 +117,3 @@ app.MapControllerRoute(
  pattern: "{controller}/{action=Index}/{id?}");
 app.MapFallbackToFile("index.html"); ;
 app.Run();
-
-
-
-
-
-builder.Services.AddInfrastructure(builder.Configuration);

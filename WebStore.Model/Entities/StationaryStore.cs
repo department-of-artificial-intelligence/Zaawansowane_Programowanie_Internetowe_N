@@ -9,8 +9,8 @@ namespace WebStore.Model.Entities
     {
         #region properties
         public int Id { get; set; }
-        public virtual IList<Address> Addresses {get;set;} = new List<Address>();
-        public virtual IList<StationaryStoreEmployee> StationaryStoreEmployees {get;set;} = new List<StationaryStoreEmployee>();
+        public virtual IList<Address>? Addresses {get;set;} = new List<Address>();
+        public virtual IList<StationaryStoreEmployee>? StationaryStoreEmployees {get;set;} = new List<StationaryStoreEmployee>();
         #endregion
     }
 }

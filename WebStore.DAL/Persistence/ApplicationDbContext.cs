@@ -10,7 +10,7 @@ using WebStore.Model.Entities;
 
 namespace WebStore.DAL.Persistence
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
         //private readonly static string _connectionString = "Data Source=localhost; Initial Catalog = WebStore; User ID=sa; Password=123; TrustServerCertificate=True;";
         
@@ -35,7 +35,10 @@ namespace WebStore.DAL.Persistence
         public DbSet<StationaryStoreEmployee> StationaryStoreEmployees {get;set;}
         public DbSet<Supplier> suppliers {get;set;}
         public DbSet<User> Users {get;set;}
+        public DbSet<IdentityRole<int>> IdentityRoles { get; set; }
+        public DbSet<IdentityUserClaim<int>> IdentityUserClaims { get; set; }
         public DbSet<OrderProduct> OrderProduct {get;set;}
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
