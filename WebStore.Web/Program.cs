@@ -1,42 +1,130 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using WebStore.Services.Interfaces;
-using WebStore.Services.ConcreteServices;
-using WebStore.DAL.EF;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using AutoMapper;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using WebStore.DAL.EF;
 using WebStore.Model;
+using WebStore.Services.ConcreteServices;
+using WebStore.Services.Configuration.Profiles;
+using WebStore.Services.Interfaces;
+using WebStore.ViewModels.VM;
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
+builder.Services.AddAutoMapper(typeof(MainProfile));
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")) //here you can define a database type.
+);
+builder.Services.Configure<JwtOptionsVm>(options => builder.Configuration.GetSection("JwtOptions").Bind(options));
+builder.Services.AddIdentity<User, IdentityRole<int>>(o =>
+{
+    o.SignIn.RequireConfirmedAccount = false;
+    o.Password.RequireDigit = false;
+    o.Password.RequireUppercase = false;
+    o.Password.RequireLowercase = false;
+    o.Password.RequireNonAlphanumeric = false;
+    o.User.RequireUniqueEmail = false;
+}).AddRoleManager<RoleManager<IdentityRole<int>>>()
+.AddUserManager<UserManager<User>>()
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
+builder.Services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
+builder.Services.AddTransient(typeof(ILogger), typeof(Logger<Program>));
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateAudience = false,
+        ValidateIssuer = false,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtOptions:SecretKey"])),
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.FromMinutes(5)
+    };
+});
 
-builder.Services.AddControllersWithViews();
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseSqlServer(connectionString));
-//builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
-  //  .AddRoles<IdentityRole>()
-    //.AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
+options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
+
+builder.Services.AddSwaggerGen(opt =>
+{
+    opt.SwaggerDoc("v1", new OpenApiInfo { Title = "WebStore API", Version = "v1" });
+    opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "bearer"
+    });
+    opt.AddSecurityRequirement(new OpenApiSecurityRequirement
+ {
+ {
+ new OpenApiSecurityScheme
+ {
+ Reference = new OpenApiReference
+ {
+ Type=ReferenceType.SecurityScheme,
+ Id="Bearer"
+ }
+ },
+ new string[]{}
+ }
+ });
+});
+seed(builder.Services);
+
+async void seed(IServiceCollection services)
+{
+    var bs = services.BuildServiceProvider();
+    var roles = bs.GetRequiredService<RoleManager<IdentityRole<int>>>();
+    var users = bs.GetRequiredService<UserManager<User>>();
+    var db = bs.GetRequiredService<ApplicationDbContext>();
+
+        if (!await roles.RoleExistsAsync("man"))
+        await roles.CreateAsync(new IdentityRole<int>("man"));
+
+    if (db.Users.OfType<User>().FirstOrDefault(i => i.Id == 1) == null)
+    {
+        var user = new User()
+        {
+            UserName = @"manager@pcz.pl",
+            NormalizedUserName = @"mateusz123",
+            Email = @"manager@pcz.pl",
+            NormalizedEmail = @"manager@pcz.pl",
+            EmailConfirmed = true,
+            SecurityStamp = string.Empty
+        };
+        await users.CreateAsync(user, "123##qweQWE");
+        //await users.AddToRoleAsync(user, "man");
+    }     
+
+}
 
 var app = builder.Build();
-
+app.UseSwagger();
+app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebStore API v1"));
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseDeveloperExceptionPage();
     app.UseHsts();
 }
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-
-
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
-
-app.MapFallbackToFile("index.html");;
-
+ name: "default",
+ pattern: "{controller}/{action=Index}/{id?}");
+app.MapFallbackToFile("index.html"); ;
 app.Run();

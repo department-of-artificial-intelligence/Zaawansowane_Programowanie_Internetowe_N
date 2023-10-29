@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
 using WebStore.DAL.EF;
 using WebStore.Model;
@@ -35,6 +36,31 @@ namespace WebStore.Services.ConcreteServices
                 throw;
             }
         }
+
+        public bool DeleteProduct(Expression<Func<Product,bool>> filterExpression)
+        {
+            try{
+                if(filterExpression==null)
+                {
+                    throw new ArgumentNullException("Null");
+                }
+                var extractedProduct= DbContext.Products.Where(filterExpression).FirstOrDefault();
+                if(extractedProduct!=null)
+                {
+                    DbContext.Remove(extractedProduct);
+                    DbContext.SaveChanges();
+                    return true;
+                }
+                return false;
+                
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+
         public ProductVm GetProduct(Expression<Func<Product, bool>> filterExpression)
         {
             try
