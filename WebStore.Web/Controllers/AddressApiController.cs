@@ -1,32 +1,81 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-
-namespace WebStore.Web.Controllers
+using WebStore.Services.Interfaces;
+using WebStore.ViewModels.VM;
+namespace WebStore.Web.Controllers;
+public class AddressApiController : BaseApiController
 {
-    [Route("[controller]")]
-    public class AddressApiController : Controller
+    private readonly IAddressService _addressService;
+    public AddressApiController(ILogger logger, IMapper mapper,
+    IAddressService productService)
+    : base(logger, mapper)
     {
-        private readonly ILogger<AddressApiController> _logger;
-
-        public AddressApiController(ILogger<AddressApiController> logger)
+        _addressService = productService;
+    }
+    [HttpGet]
+    public IActionResult Get()
+    {
+        try
         {
-            _logger = logger;
+            var products = _addressService.GetAdresses();
+            return Ok(products);
         }
-
-        public IActionResult Index()
+        catch (Exception ex)
         {
-            return View();
+            Logger.LogError(ex, ex.Message);
+            return StatusCode(500, "Error occured");
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+    }
+    [HttpGet("{id:int:min(1)}")]
+    public IActionResult Get(int id)
+    {
+        try
         {
-            return View("Error!");
+            var product = _addressService.GetAdress(p => p.Id == id);
+            return Ok(product);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, ex.Message);
+            return StatusCode(500, "Error occured");
+        }
+    }
+    [HttpPut]
+    public IActionResult Put([FromBody] AddOrUpdateAddressVm AddOrUpdateAddressVm)
+    {
+        return PostOrPutHelper(AddOrUpdateAddressVm);
+    }
+    [HttpPost]
+    public IActionResult Post([FromBody] AddOrUpdateAddressVm AddOrUpdateAddressVm)
+    {
+        return PostOrPutHelper(AddOrUpdateAddressVm);
+    }
+    [HttpDelete("{id:int:min(1)}")]
+    public IActionResult Delete(int id)
+    {
+        try
+        {
+            var result = _addressService.DeleteAddress(p => p.Id == id);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, ex.Message);
+            return StatusCode(500, "Error occured");
+        }
+    }
+    private IActionResult PostOrPutHelper(AddOrUpdateAddressVm AddOrUpdateAddressVm)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            return Ok(_addressService.AddOrUpdateAddress(AddOrUpdateAddressVm));
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex.Message, ex);
+            return StatusCode(500, "Error occured");
         }
     }
 }

@@ -38,7 +38,31 @@ namespace WebStore.Services.ConcreteServices
                 Logger.LogError(ex, ex.Message);
                 throw;
             }
-        }        
+        }
+
+        public bool DeleteStore(Expression<Func<StationaryStore,bool>> filterExpression)
+        {
+            try{
+                if(filterExpression==null)
+                {
+                    throw new ArgumentNullException("Null");
+                }
+                var extractedProduct= DbContext.StationaryStores.Where(filterExpression).FirstOrDefault();
+                if(extractedProduct!=null)
+                {
+                    DbContext.Remove(extractedProduct);
+                    DbContext.SaveChanges();
+                    return true;
+                }
+                return false;
+                
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
 
         public StoreVm GetStore(Expression<Func<StationaryStore, bool>> filterExpression)
         {

@@ -39,6 +39,29 @@ namespace WebStore.Services.ConcreteServices
                 throw;
             }
         }
+        public bool DeleteOrder(Expression<Func<Order,bool>> filterExpression)
+        {
+            try{
+                if(filterExpression==null)
+                {
+                    throw new ArgumentNullException("Null");
+                }
+                var extractedProduct= DbContext.Orders.Where(filterExpression).FirstOrDefault();
+                if(extractedProduct!=null)
+                {
+                    DbContext.Remove(extractedProduct);
+                    DbContext.SaveChanges();
+                    return true;
+                }
+                return false;
+                
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
 
     public OrderVm GetOrder(Expression<Func<Order, bool>> filterExpression)
     {

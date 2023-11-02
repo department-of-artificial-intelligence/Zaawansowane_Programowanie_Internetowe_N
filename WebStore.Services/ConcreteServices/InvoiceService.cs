@@ -38,6 +38,31 @@ namespace WebStore.Services.ConcreteServices
             }
         }
 
+    public bool DeleteInvoice(Expression<Func<Invoice,bool>> filterExpression)
+        {
+            try{
+                if(filterExpression==null)
+                {
+                    throw new ArgumentNullException("Null");
+                }
+                var extractedProduct= DbContext.Invoice.Where(filterExpression).FirstOrDefault();
+                if(extractedProduct!=null)
+                {
+                    DbContext.Remove(extractedProduct);
+                    DbContext.SaveChanges();
+                    return true;
+                }
+                return false;
+                
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+
+
         public InvoiceVm GetInvoice(Expression<Func<Invoice, bool>> filterExpression)
         {
             try
