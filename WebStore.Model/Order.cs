@@ -22,5 +22,6 @@ namespace WebStore.Model
         public DateTime DeliveryDate { get; set; }
         public DateTime OrderDate { get; set; }
         public long TrackingNumber { get; set; }
+        public virtual IList<OrderProduct>? OrderProducts { get; set; }
     }
 }
