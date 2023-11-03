@@ -4,6 +4,9 @@ using WebStore.DAL;
 using WebStore.Model;
 
 using System;
+using System.Collections;
+using WebStore.Services.ConcreteServices;
+using System.Collections.Generic;
 
 namespace WebStore.Tests
 
@@ -92,6 +95,16 @@ namespace WebStore.Tests
                 TrackingNumber = 23452363,
             };
             await dbContext.AddAsync(o2);
+
+            IList<Order> orders = new List<Order> {o1, o2};
+
+            var in1 = new Invoice(){
+                Id = 1,
+                InvoiceNumber = 2022010101,
+                Orders = orders,
+            };
+            
+            await dbContext.AddAsync(in1);
             // save changes
             await dbContext.SaveChangesAsync();
         }
