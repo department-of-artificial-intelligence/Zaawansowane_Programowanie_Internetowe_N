@@ -84,6 +84,14 @@ namespace WebStore.Tests
                 TrackingNumber = 123456789,
             };
             await dbContext.AddAsync(o1);
+             var o2 = new Order(){
+                Id = 2,
+                CustomerId = customer1.Id,
+                DeliveryDate = new DateTime(2008, 4, 1, 7, 0, 0),
+                OrderDate = new DateTime(2008, 3, 1, 7, 0, 0),
+                TrackingNumber = 23452363,
+            };
+            await dbContext.AddAsync(o2);
             // save changes
             await dbContext.SaveChangesAsync();
         }

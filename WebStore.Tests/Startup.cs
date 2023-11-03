@@ -20,6 +20,7 @@ namespace WebStore.Tests
 
             services.AddEntityFrameworkInMemoryDatabase()
             .AddDbContext<ApplicationDbContext>(options =>
+            //options.UseSqlServer("server=localhost;database=APP2;trusted_connection=true;")
             options.UseInMemoryDatabase("InMemoryDb")
             );
             services.AddIdentity<User, IdentityRole<int>>(options =>

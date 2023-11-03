@@ -21,79 +21,58 @@ namespace WebStore.Tests.UnitTests
         [Fact]
         public void GetOrderTest()
         {
-            var order = _orderService.GetOrder(o => o.TrackingNumber == 123456789);
+            var order = _orderService.GetOrder(o => o.Id == 1);
             Assert.NotNull(order);
         }
 
+        [Fact]
+        public void GetMultipleOrdersTest()
+        {
+            var orders = _orderService.GetOrders(p => p.Id >= 1 && p.Id <= 2);
+            Assert.NotNull(orders);
+            Assert.NotEmpty(orders);
+            Assert.Equal(2, orders.Count());
+        }
 
+        [Fact]
+        public void GetAllOrdersTest()
+        {
+            var orders = _orderService.GetOrders();
+            Assert.NotNull(orders);
+            Assert.NotEmpty(orders);
+            Assert.Equal(orders.Count(), orders.Count());
+        }
 
-        // [Fact]
-        // public void GetMultipleOrdersTest()
-        // {
-        //     var orders = _orderService.GetOrders(p => p.Id >= 1 && p.Id <= 2);
-        //     Assert.NotNull(orders);
-        //     Assert.NotEmpty(orders);
-        //     Assert.Equal(2, orders.Count());
-        // }
-        // [Fact]
-        // public void GetAllOrdersTest()
-        // {
-        //     var orders = _orderService.GetOrders();
-        //     Assert.NotNull(orders);
-        //     Assert.NotEmpty(orders);
-        //     Assert.Equal(orders.Count(), orders.Count());
-        // }
+        [Fact]
+        public void AddNewOrderTest()
+        {
+            var newOrderVm = new AddOrUpdateOrderVm()
+            {
+                Id = 1,
+                CustomerId = 1,
+                DeliveryDate = new DateTime(2008, 4, 1, 7, 0, 0),
+                OrderDate = new DateTime(2008, 3, 1, 7, 0, 0),
+                TrackingNumber = 999,
+            };
+            var createdOrder = _orderService.AddOrUpdateOrder(newOrderVm);
+            Assert.NotNull(createdOrder);
+            Assert.Equal(999, createdOrder.TrackingNumber);
+        }
 
-
-
-
-
-
-
-
-
-//         [Fact]
-//         public void AddNewOrderTest()
-//         {
-//             var newOrderVm = new AddOrUpdateOrderVm()
-//             {
-//                 Name = "MacBook Pro",
-//                 CategoryId = 1,
-//                 SupplierId = 1,
-//                 ImageBytes = new byte[] {
-// 0xff,
-// 0xff,
-// 0xff,
-// 0x80
-// },
-//                 Price = 6000,
-//                 Weight = 1.1f,
-//                 Description = "MacBook Pro z procesorem M1 8GB RAM, Dysk 256 GB"
-//             };
-//             var createdOrder = _orderService.AddOrUpdateOrder(newOrderVm);
-//             Assert.NotNull(createdOrder);
-//             Assert.Equal("MacBook Pro", createdOrder.Name);
-//         }
-//         [Fact]
-//         public void UpdateOrderTest()
-//         {
-//             var updateOrderVm = new AddOrUpdateOrderVm()
-//             {
-//                 Id = 1,
-//                 Description = "Bardzo praktyczny monitor 32 cale",
-//                 ImageBytes = new byte[] { 0xff, 0xff, 0xff, 0x80 },
-//                 Name = "Monitor Dell 32",
-//                 Price = 2000,
-//                 Weight = 20,
-//                 CategoryId = 1,
-//                 SupplierId = 1
-//             };
-//             var editedOrderVm = _orderService.AddOrUpdateOrder(updateOrderVm);
-//             Assert.NotNull(editedOrderVm);
-//             Assert.Equal("Monitor Dell 32", editedOrderVm.Name);
-//             Assert.Equal(2000, editedOrderVm.Price);
-//         }
-
-        
+        [Fact]
+        public void UpdateOrderTest()
+        {
+            var updateOrderVm = new AddOrUpdateOrderVm()
+            {
+                Id = 2,
+                CustomerId = 1,
+                DeliveryDate = new DateTime(2008, 4, 1, 7, 0, 0),
+                OrderDate = new DateTime(2008, 3, 1, 7, 0, 0),
+                TrackingNumber = 2,
+            };
+            var editedOrderVm = _orderService.AddOrUpdateOrder(updateOrderVm);
+            Assert.NotNull(editedOrderVm);
+            Assert.Equal(2, editedOrderVm.TrackingNumber);
+        }
     }
 }

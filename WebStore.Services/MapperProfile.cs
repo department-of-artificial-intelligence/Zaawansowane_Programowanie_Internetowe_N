@@ -11,6 +11,7 @@ namespace WebStore.Services
 		CreateMap<AddOrUpdateProductVm, Product>();
 
 		CreateMap<Order, OrderVm>();
+		CreateMap<AddOrUpdateOrderVm, Order>();
 
 		CreateMap<Invoice, InvoiceVm>();
 
