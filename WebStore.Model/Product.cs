@@ -10,10 +10,12 @@ public class Product
     public string Name {get; set;}  
     public decimal Price {get; set;}  
     public float Weight {get; set;}  
+    public int CategoryId {get; set;} 
     public Category Category {get; set;} 
+    public int SupplierId {get; set;} 
     public Supplier Supplier {get; set;}  
-    public IList<ProductStock> ProductStock {get; set;}  
-    public ICollection<Order> Orders {get; set;}  
+    public IList<ProductStock> ProductStock {get; set;}  = new List<ProductStock>(); 
+    public ICollection<Order> Orders {get; set;}  = new List<Order>(); 
 
 
 }

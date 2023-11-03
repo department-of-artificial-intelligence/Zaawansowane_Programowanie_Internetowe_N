@@ -11,6 +11,6 @@ public class Order{
     public decimal TotalAmount {get;}
     public long TrackingNumber {get; set;}
     public int InvoiceId {get;set;}
-    public virtual Invoice Invoice {get;set;}
+    public virtual Invoice? Invoice {get;set;}
     public virtual IList<Product> Products {get; set;}  = new List<Product>();
 }

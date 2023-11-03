@@ -46,9 +46,11 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<int>, i
 
         base.OnModelCreating(modelBuilder);
 }
-protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-{
-    optionsBuilder.UseSqlServer("server=localhost;database=APP2;trusted_connection=true;");
-}
+
+//wylaczone na poczet testow
+// protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+// {
+//     optionsBuilder.UseSqlServer("server=localhost;database=APP2;trusted_connection=true;");
+// }
 
 }
