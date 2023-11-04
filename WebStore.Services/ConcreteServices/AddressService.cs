@@ -48,17 +48,16 @@ namespace WebStore.Services.ConcreteServices
             }
         }
 
-        public AddressVm GetAddress(int addressId)
+        public AddressVm GetAddress(Expression<Func<Address, bool>> filterExpression)
         {
             try
             {
-                var addressEntity = DbContext.Addresses.FirstOrDefault(a => a.Id == addressId);
-
-                if (addressEntity == null)
+                if (filterExpression == null)
                 {
-                    return null;
+                    throw new ArgumentNullException("Filter expression parameter is null");
                 }
 
+                var addressEntity = DbContext.Addresses.FirstOrDefault(filterExpression);
                 var addressVm = Mapper.Map<AddressVm>(addressEntity);
                 return addressVm;
             }
@@ -82,29 +81,6 @@ namespace WebStore.Services.ConcreteServices
 
                 var addressVms = Mapper.Map<IEnumerable<AddressVm>>(addressesQuery);
                 return addressVms;
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, ex.Message);
-                throw;
-            }
-        }
-        public AddressVm FindAddress(string postalCode, string city, string street)
-        {
-            try
-            {
-                var addressEntity = DbContext.Addresses.FirstOrDefault(address =>
-                    address.ZipCode == postalCode &&
-                    address.City == city &&
-                    address.Street == street);
-
-                if (addressEntity == null)
-                {
-                    return null;
-                }
-
-                var addressVm = Mapper.Map<AddressVm>(addressEntity);
-                return addressVm;
             }
             catch (Exception ex)
             {

@@ -23,10 +23,7 @@ using System.Data.Common;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"));
-});
+builder.Services.AddDbContext<ApplicationDbContext>();
 builder.Services.Configure<JwtOptionsVm>(options => builder.Configuration.GetSection("JwtOptions").Bind(options));
 builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
 {
@@ -97,7 +94,7 @@ builder.Services.AddSwaggerGen(opt =>
 builder.Services.AddControllers();
 
 var app = builder.Build();
-app.UseStartup<Program>();
+
 app.UseSwagger();
 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebStore API v1"));
 

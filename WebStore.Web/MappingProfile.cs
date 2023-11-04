@@ -12,5 +12,10 @@ public class MappingProfile : Profile
         CreateMap<Order, OrderVm>();
         CreateMap<Invoice, InvoiceVm>();
         CreateMap<StationaryStore, StationaryStoreVm>();
+        CreateMap<AddOrUpdateAddressVm, Address>();
+        CreateMap<AddOrUpdateProductVm, Product>();
+        CreateMap<AddOrUpdateOrderVm, Order>();
+        CreateMap<AddOrUpdateInvoiceVm, Invoice>();
+        CreateMap<AddOrUpdateStationaryStoreVm, StationaryStore>();
     }
 }

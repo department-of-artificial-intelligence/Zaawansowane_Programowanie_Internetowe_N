@@ -1,15 +1,16 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using WebStore.Model;
 
 namespace WebStore.DAL
 {
     public class ApplicationDbContext : DbContext
     {
-         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
-        { }
-        
+        public ApplicationDbContext() {}
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        : base(options) { }
+          
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
@@ -57,7 +58,25 @@ namespace WebStore.DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseSqlServer("Server=DESKTOP-PMQSLJ5\\SQLEXPRESS;Database=WebStoreDb;Trusted_Connection=True;");
+            if (!optionsBuilder.IsConfigured)
+            {
+                var config = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Path.GetFullPath("../WebStore.Web/"))
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+
+                var connectionString = config.GetConnectionString("DbConnection");
+                if (connectionString != null)
+                {
+                    optionsBuilder.UseSqlServer(connectionString);
+                }
+                else
+                {
+                    Console.WriteLine("Connection string is null or empty. Please configure it in appsettings.json.");
+                }
+            }
         }
+
     }
 }

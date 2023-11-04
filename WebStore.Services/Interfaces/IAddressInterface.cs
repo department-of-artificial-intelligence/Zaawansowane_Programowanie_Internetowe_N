@@ -10,7 +10,7 @@ namespace WebStore.Services.Interfaces
     public interface IAddressService
     {
         AddressVm AddOrUpdateAddress(AddOrUpdateAddressVm addOrUpdateAddressVm);
-        AddressVm GetAddress(int addressId);
+        AddressVm GetAddress(Expression<Func<Address, bool>>? filterExpression);
         IEnumerable<AddressVm> GetAddresses(Expression<Func<Address, bool>>? filterExpression = null);
         void DeleteAddress(int addressId);
     }
