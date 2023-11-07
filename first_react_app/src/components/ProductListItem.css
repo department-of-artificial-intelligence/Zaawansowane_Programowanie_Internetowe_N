@@ -1,0 +1,11 @@
+.product-item{
+    display: flex;
+}
+.product-item-span{
+    display: block;
+    }
+.product-item-element{
+    width: 25%;
+    margin-bottom: 30px;
+    }
+    
