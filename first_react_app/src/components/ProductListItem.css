@@ -1,0 +1,10 @@
+.product-item-span{
+    display: block;
+}
+
+.product-item-element{
+    display: block;
+    margin-bottom: 1px;
+    background-color: blueviolet;
+    border: 1px;
+}
