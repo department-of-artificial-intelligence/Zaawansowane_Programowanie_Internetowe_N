@@ -4,17 +4,17 @@ import ReactDOM from "react-dom";
 
 function Task9(){
 
-
     const [ flag, setFlag] = useState(false);
-
+    const [childData, setChildData] = useState("");
 
 
     return (
         <div>
         <button
         onClick={() => setFlag(true)}
-        >klik</button>        
-        { flag?<Task9a></Task9a>:<div></div> }
+        >klik</button>
+        
+        { flag?<Task9a passChildData={setFlag}></Task9a>:<div></div> }
         </div>
         
     );
