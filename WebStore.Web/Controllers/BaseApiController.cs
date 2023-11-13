@@ -11,7 +11,7 @@ namespace WebStore.Web.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
 
-    public class BaseApiController : ControllerBase
+    public class BaseApiController : Controller
     {
 
         protected readonly ILogger Logger;

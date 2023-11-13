@@ -9,8 +9,7 @@ using WebStore.ViewModels.ViewModels;
 
 namespace WebStore.Web.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
+
     public class ProductApiController : BaseApiController
     {
         private readonly IProductService _productService;

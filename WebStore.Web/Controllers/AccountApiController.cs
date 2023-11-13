@@ -18,7 +18,7 @@ using WebStore.ViewModels.ViewModels;
 
 namespace WebStore.Web.Controllers
 {
-
+    
     public class AccountApiController : BaseApiController
     {
         private readonly SignInManager<User> _signInManager;
@@ -53,7 +53,7 @@ namespace WebStore.Web.Controllers
                     return BadRequest(ModelState);
                 }
                 var newUserEntity = Mapper.Map<User>(registerUserVm);
-                newUserEntity.UserName = registerUserVm.Email;
+                newUserEntity.UserName = registerUserVm.Email; //nalezy uzupelnic
                 //var hashedPassword = _passwordHasher.HashPassword(newUserEntity, registerUserVm.Password);
                 //newUserEntity.PasswordHash = hashedPassword;
                 newUserEntity.EmailConfirmed = true;
@@ -78,24 +78,6 @@ namespace WebStore.Web.Controllers
                 Logger.LogError(ex, $"Exception message = {ex.Message}{System.Environment.NewLine} Exception StackTrace = {ex.StackTrace}{System.Environment.NewLine}");
                 return BadRequest("Error occurred");
             }
-
-
-
-            /*
-            try
-            {
-                var serviceResult = await _accountService.RegisterNewUserAsync(registerUserVm);
-                if(serviceResult.IsUserRegistered){
-                    return Ok(serviceResult.Message);
-                }
-                ModelState.AddModelError("Model", serviceResult.Message);
-                return BadRequest(ModelState);
-            }
-            catch(Exception ex){
-                Logger.LogError(ex, $"Exception message = {ex.Message}{System.Environment.NewLine} Exception StackTrace = {ex.StackTrace}{System.Environment.NewLine}");
-                return BadRequest("Error occurred");
-            }
-            */
 
         }
 

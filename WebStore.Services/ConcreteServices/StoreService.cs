@@ -83,7 +83,7 @@ namespace WebStore.Services.ConcreteServices
             }
         }
 
-        public async Task<(IList<StationaryStoreVm>, bool isExtracted)?> GetStoresAsync(Expression<Func<StationaryStore, bool>> filterExpression)
+        public async Task<(IList<StationaryStoreVm> StationaryStores, bool isExtracted)?> GetStoresAsync(Expression<Func<StationaryStore, bool>> filterExpression)
         {
             try{
                 IList<StationaryStore> rawResults = new List<StationaryStore>();
