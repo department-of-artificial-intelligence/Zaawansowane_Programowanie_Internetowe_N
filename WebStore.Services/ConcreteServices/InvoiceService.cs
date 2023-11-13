@@ -63,6 +63,65 @@ namespace WebStore.Services.ConcreteServices
             }
         }
 
+        public async Task<bool> DeleteInvoiceByIdAsync(int? id){
+            try{
+                if(id.GetValueOrDefault() == 0)
+                    return false;
 
+                var extractedEntity = await _dbContext.Invoices.FirstOrDefaultAsync(_ => _.Id == id);
+                if(extractedEntity is null)
+                    return false;
+                _dbContext.Invoices.Remove(extractedEntity);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch(Exception ex){
+                _logger.LogError(ex,$"Exception message = {ex.Message}{System.Environment.NewLine} Exception StackTrace = {ex.StackTrace}{System.Environment.NewLine}");
+                throw;
+            }
+        }
+
+        public async Task<(bool IsSuccess, InvoiceVm InvoiceVm)> CreateOrUpdateInvoiceAsync(InvoiceVm? invoiceVm)
+        {
+            try{
+                if(invoiceVm is null)
+                    return (false,null);
+                var preparedEntity = _mapper.Map<Invoice>(invoiceVm);
+                if(preparedEntity is null)
+                    return (false,null);
+                if(preparedEntity.Id >= 0){
+                    _dbContext.Invoices.Update(preparedEntity);
+                    await _dbContext.SaveChangesAsync();
+                    return(true, invoiceVm);
+                }
+                else{
+                    await _dbContext.Invoices.AddAsync(preparedEntity);
+                    await _dbContext.SaveChangesAsync();
+                    return (true,invoiceVm);
+                }
+                
+            }
+            catch(Exception ex){
+                _logger.LogError(ex, $"Exception message = {ex.Message}{System.Environment.NewLine} Exception StackTrace = {ex.StackTrace}{System.Environment.NewLine}");
+                throw;
+            }
+        }
+
+        public async Task<bool> DeleteInvoiceAsync(Expression<Func<Invoice, bool>> expression)
+        {
+            try{
+                if(expression is null)
+                    return false;
+                var extractedEntity = await _dbContext.Invoices.FirstOrDefaultAsync(expression);
+                if(extractedEntity is null)
+                    return false;
+                _dbContext.Invoices.Remove(extractedEntity);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }catch(Exception ex){
+                _logger.LogError(ex, $"Exception message = {ex.Message}{System.Environment.NewLine} Exception StackTrace = {ex.StackTrace}{System.Environment.NewLine}");
+                throw;
+            }
+        }
     }
 }

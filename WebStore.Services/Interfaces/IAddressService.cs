@@ -12,5 +12,7 @@ namespace WebStore.Services.Interfaces
     {
         public Task<IList<AddressVm>?> GetAdressesByCustomerIdAsync(Expression<Func<Address,bool>> filterExpression);
         public Task<IList<AddressVm>?> GetAddressesAsync(Expression<Func<Address, bool>>? filterExpression = null);
+        public Task<bool> DeleteAddressAsync(Expression<Func<Address, bool>> filterExpression);
+        public Task<(bool IsSuccess, AddressVm AddressVm)> CreateOrUpdateAddress(AddressVm addressVm);
     }
 }

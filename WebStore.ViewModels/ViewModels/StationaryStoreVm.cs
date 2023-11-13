@@ -8,7 +8,7 @@ namespace WebStore.ViewModels.ViewModels
     public class StationaryStoreVm
     {
         #region properties
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public virtual IList<AddressVm> Addresses {get;set;} = new List<AddressVm>();
         public virtual IList<StationaryStoreEmployeeVm> StationaryStoreEmployees {get;set;} = new List<StationaryStoreEmployeeVm>();
         #endregion

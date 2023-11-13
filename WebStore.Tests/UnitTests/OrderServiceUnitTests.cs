@@ -19,7 +19,7 @@ namespace WebStore.Tests.UnitTests
 
 
         [Fact]
-        public async Task GetOrderByIdTest()
+        public async Task GetOrderByIdTestAsync()
         {
             var result = await _orderService.GetOrderByIdAsync(o => o.Id == 1);
             Assert.NotNull(result);
@@ -27,12 +27,48 @@ namespace WebStore.Tests.UnitTests
         }
 
         [Fact]
-        public async Task TestName()
+        public async Task GetOrdersTestAsync()
         {
             var results = await _orderService.GetOrdersAsync(x => x.TrackingNumber==15);
             Assert.NotNull(results);
             Assert.NotEmpty(results);
             
+        }
+
+        [Fact]
+        public async Task DeleteOrderTestAsync()
+        {
+            var methodResult = await _orderService.DeleteOrderAsync(_ => _.Id == 1);
+            Assert.Equal(true, methodResult);
+            Assert.NotNull(methodResult);
+        }
+        [Fact]
+        public async Task CreateOrderTestAsync()
+        {
+            var newOrderVm = new OrderVm(){
+                DeliveryDate = new DateTime(2023,10,25),
+                OrderDate = new DateTime(2023,10,27),
+                TotalAmount = 50.0m,
+                TrackingNumber = 60
+            };
+            var methodResults = await _orderService.CreateOrUpdateOrder(newOrderVm);
+            Assert.Equal(true,methodResults.IsSuccess);
+            Assert.NotNull(methodResults);
+
+        }
+        [Fact]
+        public async Task EditOrderTestAsync()
+        {
+            var updateOrderVm = new OrderVm(){
+                Id = 3,
+                DeliveryDate = new DateTime(2023,11,25),
+                OrderDate = new DateTime(2023,11,27),
+                TotalAmount = 115.0m,
+                TrackingNumber = 90
+            };
+            var methodResults  = await _orderService.CreateOrUpdateOrder(updateOrderVm);
+            Assert.Equal(true, methodResults.IsSuccess);
+            Assert.NotNull(methodResults);
         }
     }
 }

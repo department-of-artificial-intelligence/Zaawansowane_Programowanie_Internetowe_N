@@ -16,7 +16,7 @@ namespace WebStore.Tests.UnitTests
         }
 
         [Fact]
-        public async Task GetInvoiceByIdTest()
+        public async Task GetInvoiceByIdTestAsync()
         {
             var rawResult = await _invoiceService.GetInvoiceByIdAsync(i => i.Id == 1);
             var preparedResult = rawResult.GetValueOrDefault().invoice;
@@ -24,11 +24,42 @@ namespace WebStore.Tests.UnitTests
         }
 
         [Fact]
-        public async Task GetInvoicesTest()
+        public async Task GetInvoicesTestAsync()
         {
             var rawResult = await _invoiceService.GetInvoicesAsync();
             var preparedResult = rawResult.GetValueOrDefault().isExtracted;
             Assert.Equal(false, preparedResult);
+        }
+
+        [Fact]
+        public async Task DeleteInvoiceTestAsync()
+        {
+            var methodResult = await _invoiceService.DeleteInvoiceAsync(_ => _.Id == 1);
+            Assert.Equal(true,methodResult);
+            Assert.NotNull(methodResult);
+        }
+        [Fact]
+        public async Task CreateInvoiceTestAsync()
+        {
+            var newInvoiceVm =new InvoiceVm(){
+                Id = 1,
+                DeliveryDate = new DateTime(2023,10,21),
+                OrderDate = new DateTime(2023, 10, 25),
+            };
+            var methodResults = await _invoiceService.CreateOrUpdateInvoiceAsync(newInvoiceVm);
+            Assert.Equal(true, methodResults.IsSuccess);
+            Assert.NotNull(methodResults);
+        }
+        [Fact]
+        public async Task EditInvoiceTestAsync()
+        {
+            var updatedInvoiceVm =new InvoiceVm(){
+                DeliveryDate = new DateTime(2023,11,21),
+                OrderDate = new DateTime(2023, 11, 25),
+            };
+            var methodResults = await _invoiceService.CreateOrUpdateInvoiceAsync(updatedInvoiceVm);
+            Assert.Equal(true, methodResults.IsSuccess);
+            Assert.NotNull(methodResults);
         }
     }
 }

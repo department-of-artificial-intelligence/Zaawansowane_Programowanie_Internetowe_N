@@ -8,7 +8,7 @@ namespace WebStore.ViewModels.ViewModels
     public class AddressVm
     {
         #region properties
-        public int Id {get;set;}
+        public int? Id {get;set;}
         public string BillingAddress { get; set; }
         public string ShippingAddress { get; set; }
         public CustomerVm Customer {get;set;}

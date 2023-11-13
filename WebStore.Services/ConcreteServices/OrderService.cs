@@ -21,6 +21,49 @@ namespace WebStore.Services.ConcreteServices
         {
         }
 
+        public async Task<(bool IsSuccess, OrderVm OrderVm)> CreateOrUpdateOrder(OrderVm orderVm)
+        {
+            try{
+                if(orderVm is null)
+                    return (false, null);
+                var preparedEntity = _mapper.Map<Order>(orderVm);
+                if(preparedEntity is null)
+                    return (false,null);
+                if(orderVm.Id.HasValue || orderVm.Id == 0){
+                    _dbContext.Orders.Update(preparedEntity);
+                    await _dbContext.SaveChangesAsync();
+                    return (true, orderVm);
+                }
+                else{
+                    await _dbContext.Orders.AddAsync(preparedEntity);
+                    await _dbContext.SaveChangesAsync();
+                    return (true,orderVm);
+                }
+                
+            }catch(Exception ex){
+                _logger.LogError(ex, $"Exception message = {ex.Message}{System.Environment.NewLine} Exception StackTrace = {ex.StackTrace}{System.Environment.NewLine}");
+                throw;
+            }
+        }
+
+        public async Task<bool> DeleteOrderAsync(Expression<Func<Order, bool>> filterExpression)
+        {
+            try{
+                if(filterExpression is null)
+                    return false;
+                var extractedEntity = await _dbContext.Orders.FirstOrDefaultAsync(filterExpression);
+                if(extractedEntity is null)
+                    return false;
+                _dbContext.Orders.Remove(extractedEntity);
+                await _dbContext.SaveChangesAsync();
+                return true;
+                }
+                catch(Exception ex){
+                    _logger.LogError(ex, $"Exception message = {ex.Message}{System.Environment.NewLine} Exception StackTrace = {ex.StackTrace}{System.Environment.NewLine}");
+                throw;
+                }
+        }
+
         public async Task<OrderVm?> GetOrderByIdAsync(Expression<Func<Order, bool>> filterExpression)
         {
             try{

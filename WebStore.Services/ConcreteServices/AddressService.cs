@@ -19,6 +19,49 @@ namespace WebStore.Services.ConcreteServices
         {
         }
 
+        public async Task<(bool IsSuccess, AddressVm AddressVm)> CreateOrUpdateAddress(AddressVm addressVm)
+        {
+            try{
+                if(addressVm is null)
+                    return (false, null);
+                var preparedEntity = _mapper.Map<Address>(addressVm);
+                if(preparedEntity is null)
+                    return (false, null);
+                if(addressVm.Id.HasValue || addressVm.Id == 0){
+                    _dbContext.Addresses.Update(preparedEntity);
+                    await _dbContext.SaveChangesAsync();
+                    return (true, addressVm);
+                }else{
+                    await _dbContext.Addresses.AddAsync(preparedEntity);
+                    await _dbContext.SaveChangesAsync();
+                    return (true, addressVm);
+                }
+
+            }
+            catch(Exception ex){
+                                _logger.LogError(ex, $"Exception message = {ex.Message}{System.Environment.NewLine} Exception StackTrace = {ex.StackTrace}{System.Environment.NewLine}");
+                throw;
+            }
+        }
+
+        public async Task<bool> DeleteAddressAsync(Expression<Func<Address, bool>> filterExpression)
+        {
+            try{
+                if(filterExpression is null)
+                    return false;
+                var extractedEntity = await _dbContext.Addresses.FirstOrDefaultAsync(filterExpression);
+                if(extractedEntity is null)
+                    return false;
+                _dbContext.Remove(extractedEntity);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch(Exception ex){
+                _logger.LogError(ex, $"Exception message = {ex.Message}{System.Environment.NewLine} Exception StackTrace = {ex.StackTrace}{System.Environment.NewLine}");
+                throw;
+            }
+        }
+
         public async Task<IList<AddressVm>?> GetAddressesAsync(Expression<Func<Address, bool>>? filterExpression = null)
         {
             try{

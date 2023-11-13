@@ -12,5 +12,7 @@ namespace WebStore.Services.Interfaces
     {
         public Task<OrderVm?> GetOrderByIdAsync(Expression<Func<Order,bool>> filterExpression);
         public Task<IList<OrderVm>?> GetOrdersAsync(Expression<Func<Order, bool>>? filterExpression = null);
+        public Task<(bool IsSuccess, OrderVm OrderVm)> CreateOrUpdateOrder(OrderVm orderVm);
+        public Task<bool> DeleteOrderAsync(Expression<Func<Order,bool>> filterExpression);
     }
 }
