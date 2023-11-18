@@ -1,0 +1,23 @@
+.image-container{
+    display: block;
+    max-width: 1000px;
+    margin: auto;
+}
+button[type="button"]{
+    width: 50%;
+    padding: 10px;
+    inline-size: none;
+     
+}
+button[type="button"]:hover{
+    background-color: aqua;
+    cursor: pointer;
+}
+.image-container {
+    margin: 20px;
+  }
+  .image-container img {
+    max-width: 100%;
+    height: auto;
+  }
+  

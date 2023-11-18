@@ -1,0 +1,19 @@
+.calculator-container{
+    display: block;
+    max-width: 500px;
+    margin: auto;
+}
+
+button[type="button"]{
+    inline-size: none;
+    background-color: red;
+    width: 50%;
+    padding: 10px;
+    
+}
+button[type="button"]:hover{
+    background-color: aqua;
+}
+p{
+    font-size: large;
+}

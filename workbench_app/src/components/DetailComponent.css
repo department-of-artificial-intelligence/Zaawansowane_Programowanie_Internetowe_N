@@ -1,0 +1,18 @@
+.data{
+    display: block;
+    max-width: 500px;
+    margin: auto;
+}
+.data-paragraph{
+    font-size: large;
+    font-family: 'Times New Roman', Times, serif;
+}
+button[type="button"]{
+    width: 100%;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+button[type="button"]:hover{
+    background-color: aqua;
+}
