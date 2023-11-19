@@ -5,6 +5,9 @@ import { DetailComponent } from './components/DetailComponent';
 import { LinkComponent } from './components/LinkComponent';
 import { CalculatorComponent } from './components/CalculatorComponent';
 import { ImageComponent } from './components/ImageComponent';
+import { MainComponent } from './components/MainComponent';
+import {UserMainComponent} from "./components/UserMainComponent"
+import { PhotoGalleryComponent } from './components/PhotoGalleryComponent';
 /*
 //task 3
 function App() {
@@ -30,10 +33,32 @@ function App(){
 //   )
 // }
 
-//task 8
+// //task 8
+// function App(){
+//   return(
+//     <ImageComponent></ImageComponent>
+//   );
+// }
+
+// //task 9
+// function App(){
+
+//   return(
+//     <MainComponent></MainComponent>
+//   );
+// }
+
+// //task 10, 11
+// function App(){
+//   return(
+//     <UserMainComponent/>
+//   );
+// }
+
+//task 12
 function App(){
   return(
-    <ImageComponent></ImageComponent>
+    <PhotoGalleryComponent/>
   );
 }
 
