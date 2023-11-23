@@ -1,8 +1,11 @@
-namespace WebStore.ViewModels.VM;
-
-public class CustomerAddressVm
+namespace WebStore.ViewModels.VM
 {
-    public int CustomerId { get; set; }
-    public virtual CustomerVm Customer { get; set; }
-    
+    public class CustomerAddressVm
+    {
+        public int CustomerId { get; set; }
+        public virtual CustomerVm? Customer { get; set; }
+        
+    }
+
 }
+

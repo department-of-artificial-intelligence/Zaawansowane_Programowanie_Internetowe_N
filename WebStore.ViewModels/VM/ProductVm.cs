@@ -8,5 +8,7 @@ namespace WebStore.ViewModels.VM
         public decimal Price { get; set; }
         public float Weight { get; set; }
         public int Quantity { get; set; }
+        public IList<ProductStockVm>? ProductStocks { get; set; }
+        public IList<OrderVm>? Orders { get; set; }
     }
 }

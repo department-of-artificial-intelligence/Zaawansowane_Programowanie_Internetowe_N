@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebStore.DAL.EF;
 using WebStore.Services.Interfaces;
@@ -78,9 +81,9 @@ public class OrderServiceUnitTests : BaseUnitTests
     {
         int orderId = 3;
 
-        bool doesOrderExistsBefore = await _context.Order.AnyAsync(x => x.Id == orderId);
+        bool doesOrderExistsBefore = await _context.Orders.AnyAsync(x => x.Id == orderId);
         await _service.DeleteOrder(x => x.Id == orderId);
-        bool doesOrderExistsAfter = await _context.Order.AnyAsync(x => x.Id == orderId);
+        bool doesOrderExistsAfter = await _context.Orders.AnyAsync(x => x.Id == orderId);
 
         Assert.True(doesOrderExistsBefore);
         Assert.False(doesOrderExistsAfter);

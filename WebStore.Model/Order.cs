@@ -6,6 +6,7 @@ namespace WebStore.Model
     public class Order
     {
         [Key]
+        [Required]
         public int Id { get; set; }
 
         [ForeignKey("Customer")]
@@ -20,6 +21,8 @@ namespace WebStore.Model
         public int InvoiceId { get; set; }
         public virtual Invoice? Invoice { get; set; }
         public DateTime DeliveryDate { get; set; }
+        public decimal TotalAmount => OrderProducts == null ? 0 :
+                                  OrderProducts.Sum(op => op.Product != null ? op.Product.Price : 0);
         public DateTime OrderDate { get; set; }
         public long TrackingNumber { get; set; }
         public virtual IList<OrderProduct>? OrderProducts { get; set; }

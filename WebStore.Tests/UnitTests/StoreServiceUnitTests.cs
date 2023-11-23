@@ -1,3 +1,5 @@
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebStore.DAL.EF;
 using WebStore.Services.Interfaces;
@@ -72,9 +74,9 @@ public class StoreServiceUnitTests : BaseUnitTests
     {
         int stationaryStoreId = 3;
 
-        bool doesStationaryStoreExistsBefore = await _dbContext.StationaryStore.AnyAsync(x => x.Id == stationaryStoreId);
+        bool doesStationaryStoreExistsBefore = await _dbContext.StationaryStores.AnyAsync(x => x.Id == stationaryStoreId);
         await _storeService.DeleteStationaryStore(x => x.Id == stationaryStoreId);
-        bool doesStationaryStoreExistsAfter = await _dbContext.StationaryStore.AnyAsync(x => x.Id == stationaryStoreId);
+        bool doesStationaryStoreExistsAfter = await _dbContext.StationaryStores.AnyAsync(x => x.Id == stationaryStoreId);
 
         Assert.True(doesStationaryStoreExistsBefore);
         Assert.False(doesStationaryStoreExistsAfter);

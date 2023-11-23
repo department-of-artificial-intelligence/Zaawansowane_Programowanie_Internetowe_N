@@ -14,7 +14,7 @@ namespace WebStore.DAL.EF
             : base(options)
         {
         }
-        public DbSet<Address> Address { get; set; } = default!;
+        public DbSet<Address> Addresses { get; set; } = default!;
         public DbSet<Category> Category { get; set; } = default!;
         public DbSet<Customer> Customers { get; set; } = default!;
         public DbSet<Order> Orders { get; set; } = default!;
@@ -43,16 +43,58 @@ namespace WebStore.DAL.EF
             modelBuilder.Entity<OrderProduct>()
                 .ToTable("OrderProduct")
                 .HasKey(x => new { x.OrderId, x.ProductId });
+
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.Customer)
+                .WithMany(c => c.Orders)
+                .HasForeignKey(o => o.CustomerId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.StationaryStore)
+                .WithMany(s => s.Orders)
+                .HasForeignKey(o => o.StationaryStoreId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             modelBuilder.Entity<OrderProduct>()
-                .HasOne(x => x.Order)
-                .WithMany(y => y.OrderProducts)
-                .HasForeignKey(x => x.OrderId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(op => op.Order)
+                .WithMany(o => o.OrderProducts)
+                .HasForeignKey(op => op.OrderId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             modelBuilder.Entity<OrderProduct>()
-                .HasOne(x => x.Product)
-                .WithMany(y => y.OrderProducts)
-                .HasForeignKey(x => x.OrderId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(op => op.Product)
+                .WithMany(p => p.OrderProducts)
+                .HasForeignKey(op => op.ProductId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.Supplier)
+                .WithMany(s => s.Products)
+                .HasForeignKey(p => p.SupplierId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            // modelBuilder.Entity<OrderProduct>()
+            //     .HasOne(x => x.Order)
+            //     .WithMany(y => y.OrderProducts)
+            //     .HasForeignKey(x => x.OrderId)
+            //     .OnDelete(DeleteBehavior.NoAction);
+
+            // modelBuilder.Entity<OrderProduct>()
+            //     .HasOne(x => x.Product)
+            //     .WithMany(y => y.OrderProducts)
+            //     .HasForeignKey(x => x.ProductId)
+            //     .OnDelete(DeleteBehavior.NoAction);
+            // modelBuilder.Entity<Order>()
+            //     .HasOne(o => o.Customer)
+            //     .WithMany(c => c.Orders)
+            //     .HasForeignKey(o => o.CustomerId)
+            //     .OnDelete(DeleteBehavior.NoAction);
+            // modelBuilder.Entity<Order>()
+            //     .HasOne(o => o.StationaryStore)
+            //     .WithMany(s => s.Orders)
+            //     .HasForeignKey(o => o.StationaryStoreId)
+            //     .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

@@ -25,9 +25,9 @@ namespace WebStore.Services.ConcreteServices
                     throw new ArgumentNullException("View model parameter is null");
                 var productEntity = Mapper.Map<Product>(addOrUpdateProductVm);
                 if (addOrUpdateProductVm.Id.HasValue || addOrUpdateProductVm.Id == 0)
-                    DbContext.Product.Update(productEntity);
+                    DbContext.Products.Update(productEntity);
                 else
-                    DbContext.Product.Add(productEntity);
+                    DbContext.Products.Add(productEntity);
                 DbContext.SaveChanges();
                 var productVm = Mapper.Map<ProductVm>(productEntity);
                 return productVm;
@@ -46,7 +46,7 @@ namespace WebStore.Services.ConcreteServices
             {
                 if (filterExpression == null)
                     throw new ArgumentNullException("Filter expression parameter is null");
-                var productEntity = DbContext.Product.FirstOrDefault(filterExpression);
+                var productEntity = DbContext.Products.FirstOrDefault(filterExpression);
                 var productVm = Mapper.Map<ProductVm>(productEntity);
                 return productVm;
             }
@@ -61,7 +61,7 @@ namespace WebStore.Services.ConcreteServices
         {
             try
             {
-                var productsQuery = DbContext.Product.AsQueryable();
+                var productsQuery = DbContext.Products.AsQueryable();
                 if (filterExpression != null)
                     productsQuery = productsQuery.Where(filterExpression);
                 var productVms = Mapper.Map<IEnumerable<ProductVm>>(productsQuery);
@@ -81,7 +81,7 @@ namespace WebStore.Services.ConcreteServices
                 if (filterExpression == null)
                     throw new ArgumentNullException("Filter expression parameter is null");
 
-                var productEntity = DbContext.Product
+                var productEntity = DbContext.Products
                     .FirstOrDefault(filterExpression);
 
                 if (productEntity == null)
@@ -89,7 +89,7 @@ namespace WebStore.Services.ConcreteServices
                     throw new Exception("Product not found");
                 }
 
-                DbContext.Product.Remove(productEntity);
+                DbContext.Products.Remove(productEntity);
 
                 await DbContext.SaveChangesAsync();
             }
