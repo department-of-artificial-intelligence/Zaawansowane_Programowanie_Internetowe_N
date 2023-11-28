@@ -33,7 +33,7 @@ builder.Services.AddTransient(typeof(ILogger), typeof(Logger<Program>));
 
 //ekstremalnie istotne?
 builder.Services.AddScoped<IProductService, ProductService>();
-
+builder.Services.AddScoped<IAddressService, AddressService>();
 
 
 builder.Services.AddAuthentication(options =>
@@ -100,7 +100,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
  name: "default",
  pattern: "{controller}/{action=Index}/{id?}");
-app.MapFallbackToFile("index.html"); ;
+app.MapFallbackToFile("index.html"); 
 app.Run();
 
 
