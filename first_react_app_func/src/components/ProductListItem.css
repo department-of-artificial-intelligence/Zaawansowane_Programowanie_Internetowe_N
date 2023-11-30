@@ -1,0 +1,22 @@
+.product-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+   
+.product-item-element {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+   
+.product-item-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+   
+.product-item-span {
+    margin-bottom: 10px;
+}
