@@ -1,19 +1,33 @@
-import { Counter } from "./components/Counter";
-import { FetchData } from "./components/FetchData";
 import { Home } from "./components/Home";
+import { AddressGrid } from './components/address/AddressGrid';
+import { AddressAdd } from "./components/address/AddressAdd";
+import { AddressEdit } from './components/address/AddressEdit';
+import { AddressDelete } from "./components/address/AddressDelete";
 
 const AppRoutes = [
   {
     index: true,
+    element: <AddressGrid />
+  },
+  {
+    path: '/home',
     element: <Home />
   },
   {
-    path: '/counter',
-    element: <Counter />
+    path: '/address',
+    element: <AddressGrid />
   },
   {
-    path: '/fetch-data',
-    element: <FetchData />
+    path: '/address/add',
+    element: <AddressAdd />
+  },
+  {
+    path: '/address/edit/:id',
+    element: <AddressEdit />
+  },
+  {
+    path: '/address/delete/:id',
+    element: <AddressDelete />
   }
 ];
 
