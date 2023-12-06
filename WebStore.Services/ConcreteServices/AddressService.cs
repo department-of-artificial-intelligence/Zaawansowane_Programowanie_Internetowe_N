@@ -1,75 +1,87 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebStore.DAL;
 using WebStore.Model;
-using WebStore.Services.Interfaces;
 using WebStore.ViewModels.VM;
-
-namespace WebStore.Services.ConcreteServices
+using WebStore.Services.Interfaces;
+namespace WebStore.Services.ConcreteServices;
+public class AddressService : BaseService, IAddressService
 {
-    public class AddressService : BaseService, IAddressService
+    public AddressService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger)
+    : base(dbContext, mapper, logger) { }
+    public AddressVm AddOrUpdateAddress(AddOrUpdateAddressVm addOrUpdateAddressVm)
     {
-        public AddressService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger) : base(dbContext, mapper, logger)
+        try
         {
+            if (addOrUpdateAddressVm == null)
+                throw new ArgumentNullException("View model parameter is null");
+            var addressEntity = Mapper.Map<Address>(addOrUpdateAddressVm);
+            if (!addOrUpdateAddressVm.Id.HasValue || addOrUpdateAddressVm.Id == 0)
+                DbContext.Addresses.Add(addressEntity);
+            else
+                DbContext.Addresses.Update(addressEntity);
+            DbContext.SaveChanges();
+            var addressVm = Mapper.Map<AddressVm>(addressEntity);
+            return addressVm;
         }
-
-        public async Task<IList<AddressVm>?> GetAddresses(Expression<Func<Address, bool>>? filterExpression = null)
+        catch (Exception ex)
         {
-            try{
-                IList<Address> rawAddresses= new List<Address>();
-                IList<AddressVm> addressesVmResults = new List<AddressVm>();
-                
-                    rawAddresses = await DbContext.Addresses
-                        .ToListAsync();
-                    if(!rawAddresses.Any())
-                        return null;
-
-                    if(filterExpression is null){
-                        addressesVmResults = Mapper.Map<IList<AddressVm>>(rawAddresses);
-                        return addressesVmResults;
-                    }
-                    else{
-                        rawAddresses = await rawAddresses.AsQueryable()
-                            .Where(filterExpression)
-                            .ToListAsync();
-
-                        addressesVmResults = Mapper.Map<IList<AddressVm>>(rawAddresses);
-                        return addressesVmResults;
-                    }
-
-            }
-            catch(Exception ex){
-                Logger.LogError(ex, $"Exception message = {ex.Message}{System.Environment.NewLine} Exception StackTrace = {ex.StackTrace}{System.Environment.NewLine}");
-                throw;
-            }
+            Logger.LogError(ex, ex.Message);
+            throw;
         }
-
-        public async Task<IList<AddressVm>?> GetAdressesByCustomerId(Expression<Func<Address, bool>> filterExpression)
+    }
+    public bool DeleteAddress(Expression<Func<Address, bool>> filterExpression)
+    {
+        try
         {
-            try{
-                
-                if(filterExpression == null)
-                    throw new Exception("The lambda expression is null");
-                var rawAddresses = await DbContext.Addresses
-                    .Where(filterExpression)
-                    .ToListAsync();
-                if(rawAddresses.Count != 0){
-                    var addressesVmResults = Mapper.Map<IList<AddressVm>>(rawAddresses);
-                    return addressesVmResults;
-                }
-                else
-                    return null; 
+            if (filterExpression == null)
+                throw new ArgumentNullException("Filter expression parameter is null");
+            var addressEntity = DbContext.Addresses.FirstOrDefault(filterExpression);
+            if (addressEntity != null)
+            {
+                DbContext.Addresses.Remove(addressEntity);
+                DbContext.SaveChanges();
+                return true;
             }
-            catch(Exception ex){
-                Logger.LogError(ex, $"Exception message = {ex.Message}{System.Environment.NewLine} Exception StackTrace = {ex.StackTrace}{System.Environment.NewLine}");
-                throw;
-            }
+            else return false;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, ex.Message);
+            throw;
+        }
+    }
+    public AddressVm GetAddress(Expression<Func<Address, bool>>? filterExpression)
+    {
+        try
+        {
+            if (filterExpression == null)
+                throw new ArgumentNullException("Filter expression parameter is null");
+            var addressEntity = DbContext.Addresses.FirstOrDefault(filterExpression);
+            var addressVm = Mapper.Map<AddressVm>(addressEntity);
+            return addressVm;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, ex.Message);
+            throw;
+        }
+    }
+    public IEnumerable<AddressVm> GetAddresses(Expression<Func<Address, bool>>? filterExpression = null)
+    {
+        try
+        {
+            var addressesQuery = DbContext.Addresses.AsQueryable();
+            if (filterExpression != null)
+                addressesQuery = addressesQuery.Where(filterExpression);
+            var addressVms = Mapper.Map<IEnumerable<AddressVm>>(addressesQuery);
+            return addressVms;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, ex.Message);
+            throw;
         }
     }
 }

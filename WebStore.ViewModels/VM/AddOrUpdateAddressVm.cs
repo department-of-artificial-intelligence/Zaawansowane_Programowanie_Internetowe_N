@@ -1,7 +1,7 @@
 namespace WebStore.ViewModels.VM;
-public class AddressVm
+public class AddOrUpdateAddressVm
 {
- public int Id { get; set; }
+ public int? Id { get; set; } = default!;
  public string City { get; set; } = default!;
  public string ZipCode { get; set; } = default!;
  public string Street { get; set; } = default!;
