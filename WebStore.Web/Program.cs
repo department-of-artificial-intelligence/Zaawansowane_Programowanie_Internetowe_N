@@ -30,8 +30,9 @@ builder.Services.AddIdentity<User, IdentityRole<int>>(o =>
 .AddDefaultTokenProviders();
 builder.Services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
 builder.Services.AddTransient(typeof(ILogger), typeof(Logger<Program>));
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
-//ekstremalnie istotne?
+//ekstremalnie istotne
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IAddressService, AddressService>();
 
@@ -102,45 +103,3 @@ app.MapControllerRoute(
  pattern: "{controller}/{action=Index}/{id?}");
 app.MapFallbackToFile("index.html"); 
 app.Run();
-
-
-
-// using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-// using Microsoft.AspNetCore.Identity;
-// using Microsoft.EntityFrameworkCore;
-// using Microsoft.EntityFrameworkCore.Design;
-// using WebStore.Model;
-
-// using WebStore.DAL;
-
-// var builder = WebApplication.CreateBuilder(args);
-
-// // Add services to the container.
-
-// builder.Services.AddControllersWithViews();
-
-// builder.Services.AddDbContext<ApplicationDbContext>();
-
-
-
-// var app = builder.Build();
-
-// // Configure the HTTP request pipeline.
-// if (!app.Environment.IsDevelopment())
-// {
-//     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-//     app.UseHsts();
-// }
-
-// app.UseHttpsRedirection();
-// app.UseStaticFiles();
-// app.UseRouting();
-
-
-// app.MapControllerRoute(
-//     name: "default",
-//     pattern: "{controller}/{action=Index}/{id?}");
-
-// app.MapFallbackToFile("index.html");;
-
-// app.Run();

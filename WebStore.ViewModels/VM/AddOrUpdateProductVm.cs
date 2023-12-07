@@ -6,8 +6,7 @@ public class AddOrUpdateProductVm
 public int? Id { get; set; }
 [Required]
 public string Description { get; set; } =default!;
-[Required]
-public byte[] ImageBytes { get; set; } = default!;
+public byte[]? ImageBytes { get; set; } = default!;
 [Required]
 public string Name { get; set; } = default!;
 [Required]

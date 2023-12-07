@@ -17,6 +17,9 @@ namespace WebStore.Services
 
 		CreateMap<Address, AddressVm>();
 		CreateMap<AddOrUpdateAddressVm, Address>();
+
+		CreateMap<Category, CategoryVm>();
+		CreateMap<AddOrUpdateCategoryVm, Category>();
 	}
 }
 }
