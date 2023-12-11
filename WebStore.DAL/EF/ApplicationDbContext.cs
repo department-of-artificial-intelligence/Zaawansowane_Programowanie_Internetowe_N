@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Model;
 
-namespace WebStore.DAL  
+namespace WebStore.DAL.EF 
 {  
     public class ApplicationDbContext:DbContext
     {
@@ -34,11 +34,11 @@ namespace WebStore.DAL
  
 
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
-        {
-           base.OnConfiguring(optionsBuilder);
-           optionsBuilder.UseSqlServer(_connectionString);
-        }
+//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
+//        {
+//           base.OnConfiguring(optionsBuilder);
+//           optionsBuilder.UseSqlServer(_connectionString);
+//        }
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
               base.OnModelCreating(modelBuilder);

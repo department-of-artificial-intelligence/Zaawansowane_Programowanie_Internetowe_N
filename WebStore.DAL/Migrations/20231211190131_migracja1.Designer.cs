@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WebStore.DAL;
+using WebStore.DAL.EF;
 
 #nullable disable
 
 namespace WebStore.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231211165225_migracja1")]
+    [Migration("20231211190131_migracja1")]
     partial class migracja1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
