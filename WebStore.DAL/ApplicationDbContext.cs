@@ -1,0 +1,57 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;  
+using System;  
+using System.Collections.Generic;  
+using System.Linq;  
+using System.Threading.Tasks;
+using WebStore.Model;
+
+namespace WebStore.DAL  
+{  
+    public class ApplicationDbContext:DbContext
+    {
+        public ApplicationDbContext(){} 
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {}
+        private readonly static string _connectionString = "Server=(localdb)\\mssqllocaldb;Database=WebStoreAppDb;Trusted_Connection=True;MultipleActiveResultSets=true";
+        public DbSet<Address> Address { get; set; }
+        public DbSet<Category> Category { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderProduct> OrderProducts { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductStock> ProductStocks { get; set; }
+        public DbSet<StationaryStore> StationaryStores { get; set; }
+        public DbSet<StationaryStoreEmployee> StationaryStoreEmployees { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Invoice> Invoice { get; set; }
+        public DbSet<IdentityUserClaim<int>> IdentityUserClaim { get; set; }  
+        public DbSet<IdentityRole<int>> IdentityRole { get; set; } 
+        public DbSet<IdentityUserRole<int>> IdentityUserRole { get; set; }  
+        public DbSet<IdentityRoleClaim<int>> IdentityRoleClaim { get; set; }  
+
+ 
+
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
+        {
+           base.OnConfiguring(optionsBuilder);
+           optionsBuilder.UseSqlServer(_connectionString);
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder) 
+        {
+              base.OnModelCreating(modelBuilder);
+              modelBuilder.Entity<IdentityUserClaim<int>>().HasKey(p => new { p.Id });
+              modelBuilder.Entity<IdentityRoleClaim<int>>().HasKey(p => new { p.Id });
+              modelBuilder.Entity<IdentityRole<int>>().HasKey(p => new { p.Id });
+              modelBuilder.Entity<IdentityUserRole<int>>().HasNoKey();
+            //  entity.HasData(IdentityRole);
+        //    modelBuilder.Entity<Order>().HasMany(a => a.products).WithMany(a => a.Orders);
+          //  modelBuilder.Entity<Order>().HasOne(a => a.Employee).WithMany(a => a.Orders).OnDelete(DeleteBehavior.NoAction);
+            //modelBuilder.Entity<Order>().HasOne(a => a.Client).WithMany(a => a.Orders).OnDelete(DeleteBehavior.NoAction);
+        }
+
+
+    }  
+} 

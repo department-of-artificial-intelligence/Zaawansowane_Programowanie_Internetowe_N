@@ -1,10 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 namespace WebStore.Model;
-
 public class Customer : User
 {
-    public IList<Address> BillingAddress { get; set; }
+        public IList<Address> Addresses { get;set; } = new List<Address>();
+        public IList<Order> Orders {get;set;} = new List<Order>();
 
-    public IList<Order> Orders { get; set; }
-
-    public string ShippingAddress { get; set; }
-} 
+}

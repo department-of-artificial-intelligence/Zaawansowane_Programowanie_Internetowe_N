@@ -1,12 +1,10 @@
-namespace WebStore.Model;
-
-public class Invoice{
-    public Customer Customer { get; set; }
-
-    public IList<Order> Order { get; set; }
-
-    public OrderProduct OrderProduct { get; set; }
-
-    public Product Product { get; set; }
-
+namespace WebStore.Model
+{
+    public class Invoice
+    {
+        public int Id {get; set;}
+        public string? InvoiceNumber { get; set; }
+        public int OrderId {get; set;}
+        public Order? Order {get; set;}      
+    }
 }
