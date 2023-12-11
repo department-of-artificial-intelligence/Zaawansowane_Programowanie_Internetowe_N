@@ -19,9 +19,11 @@ export const CategoryList = () =>{
     console.log(state.categories);    
     return (        
         <div>
-            <CategoryListItem category={state.categories[0]}></CategoryListItem>
-            <CategoryListItem category={state.categories[1]}></CategoryListItem>
+            {
+            state.categories.map(
+                (ct:ICategory) => <CategoryListItem category={ct}></CategoryListItem>
+            )
+        }
         </div>
-    
     )
 }
