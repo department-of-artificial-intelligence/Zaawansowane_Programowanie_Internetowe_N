@@ -56,8 +56,8 @@ export const AddressGrid = () => {
                     <DataGrid
                         rows={state.addresses}
                         columns={columns}
-                        pageSize={5}
-                        rowsPerPageOptions={[5]}
+                        //pageSize={5}
+                        //rowsPerPageOptions={[5]}
                         checkboxSelection
                     />
                 </div>

@@ -4,10 +4,12 @@ import { AddressAdd } from "./components/address/AddressAdd";
 import { AddressEdit } from './components/address/AddressEdit';
 import { AddressDelete } from "./components/address/AddressDelete";
 import React from "react";
+import { CategoryList } from "./components/category/CategoryList";
+import { CategoryProvider } from './contexts/CategoryContext';
 const AppRoutes = [
     {
         index: true,
-        element: <AddressGrid />
+        element:  <Home />
     },
     {
         path: '/home',
@@ -28,6 +30,12 @@ const AppRoutes = [
     {
         path: '/address/delete/:id',
         element: <AddressDelete />
+    },
+    {
+        path: '/category',
+        element: <CategoryProvider>
+                    <CategoryList/>
+                </CategoryProvider>
     }
 ];
 export default AppRoutes;
