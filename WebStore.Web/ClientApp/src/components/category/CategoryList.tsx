@@ -16,7 +16,6 @@ export const CategoryList = () =>{
         getCategories();
     }, []);
 
-    console.log(state.categories);    
     return (        
         <div>
             {

@@ -6,6 +6,7 @@ import { AddressDelete } from "./components/address/AddressDelete";
 import React from "react";
 import { CategoryList } from "./components/category/CategoryList";
 import { CategoryProvider } from './contexts/CategoryContext';
+import { CategoryGrid } from "./components/category/CategoryGrid";
 const AppRoutes = [
     {
         index: true,
@@ -32,9 +33,15 @@ const AppRoutes = [
         element: <AddressDelete />
     },
     {
-        path: '/category',
+        path: '/categoryList',
         element: <CategoryProvider>
                     <CategoryList/>
+                </CategoryProvider>
+    },
+    {
+        path: '/categoryGrid',
+        element: <CategoryProvider>
+                    <CategoryGrid/>
                 </CategoryProvider>
     }
 ];
