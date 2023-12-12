@@ -34,11 +34,11 @@ namespace WebStore.DAL.EF
  
 
 
-//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
-//        {
-//           base.OnConfiguring(optionsBuilder);
-//           optionsBuilder.UseSqlServer(_connectionString);
-//        }
+      //  protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
+      //  {
+      //    base.OnConfiguring(optionsBuilder);
+      //    optionsBuilder.UseSqlServer(_connectionString);
+      //  }
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
               base.OnModelCreating(modelBuilder);
