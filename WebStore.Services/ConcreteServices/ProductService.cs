@@ -62,6 +62,12 @@ namespace WebStore.Services.ConcreteServices
             }
         }
 
+        public bool DeleteProduct(Expression<Func<Order, bool>> filterExpression)
+        {
+            throw new NotImplementedException();
+        }
+
+
         public ProductVm GetProduct(Expression<Func<Product, bool>> filterExpression)
         {
             try
