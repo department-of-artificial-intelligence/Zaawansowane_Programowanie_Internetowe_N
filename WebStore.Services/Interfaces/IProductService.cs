@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WebStore.Model;
 //using WebStore.Model.DataModels; 
 using WebStore.ViewModels.VM;
+using WebStore.Model.VM;
 
 namespace WebStore.Services.Interfaces
 {

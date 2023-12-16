@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebStore.Model
+namespace WebStore.Model.VM
 {
     public class Invoice
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualBasic;
 
-namespace WebStore.Model
+namespace WebStore.Model.VM
 {
     public class Order
     {
