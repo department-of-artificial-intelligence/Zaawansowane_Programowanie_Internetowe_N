@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebStore.Model
+
+namespace WebStore.Model.VM
 {
     public class User
     {
@@ -26,6 +27,9 @@ namespace WebStore.Model
         }
         public class Supplier
         {
-            public List<Product>? Products {get;set;}
+            ICollection<Product>? Products { get; set; }
+            public String UserName { get; set; }
+            public String Email { get; set; }
+           
         }
     }

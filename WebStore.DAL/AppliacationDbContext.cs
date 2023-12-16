@@ -1,6 +1,6 @@
 using System.Data.SqlTypes;
 using Microsoft.EntityFrameworkCore;
-using WebStore.Model;
+using WebStore.Model.VM;
 
 namespace WebStore.DAL;
 
