@@ -6,12 +6,15 @@
     <ProjectReference Include="..\WebStore.ViewModels\WebStore.ViewModels.csproj" />
   </ItemGroup>
 
+<<<<<<< HEAD
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />
   </ItemGroup>
 
+=======
+>>>>>>> 2949dc5d06da431d9635a2dc6bba840a7ce13767
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>

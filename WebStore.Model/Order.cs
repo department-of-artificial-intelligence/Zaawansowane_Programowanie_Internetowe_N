@@ -24,7 +24,10 @@ public class Order
 
     [Required]
     public long TrackingNumber { get; set; }
+<<<<<<< HEAD
 
     [Required]
     public Invoice Invoice { get; set; }
+=======
+>>>>>>> 2949dc5d06da431d9635a2dc6bba840a7ce13767
 }
