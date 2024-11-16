@@ -31,4 +31,8 @@ public class Product
     [Required]
     public float Weight { get; set; }
 
+    public virtual ICollection<ProductStock> Stock { get; set; }
+
+    public virtual ICollection<Product> Products { get; set; }
+
 }

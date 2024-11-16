@@ -3,10 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 [Table("Suppliers")]
-public class Supplier
+public class Supplier : User
 {
-    [Key]
-    public int Id { get; set; }
-
     public virtual ICollection<OrderProduct> Products { get; set; } = new List<OrderProduct>();
 }
