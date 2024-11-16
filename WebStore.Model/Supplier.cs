@@ -2,6 +2,7 @@ namespace WebStore.Model
 {
     public class Supplier
     {
-        public List<Product> Products { get; set; }
+        public List<Product> Products { get; set; } = new List<Product>();
     }
 }
+
