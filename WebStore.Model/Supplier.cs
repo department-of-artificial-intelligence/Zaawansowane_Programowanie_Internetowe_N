@@ -2,6 +2,8 @@ namespace WebStore.Model
 {
     public class Supplier
     {
-        public List<Product> Products { get; set; }
+        public int Id { get; set; } // Primary Key
+
+        public List<Product> Products { get; set; } = new();
     }
 }
