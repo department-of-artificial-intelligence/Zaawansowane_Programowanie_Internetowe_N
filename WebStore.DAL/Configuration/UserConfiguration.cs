@@ -8,8 +8,6 @@ namespace WebStore.DAL.Configuration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("Users");
-
             builder.HasKey(u => u.Id);
 
             builder.Property(u => u.FirstName)

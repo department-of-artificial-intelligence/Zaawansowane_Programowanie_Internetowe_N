@@ -12,7 +12,7 @@ namespace WebStore.DAL.Configuration
 
             builder.HasKey(ss => ss.Id);
 
-            builder.Property(ss => ss.StoreName)
+            builder.Property(ss => ss.Name)
                    .IsRequired()
                    .HasMaxLength(200);
 

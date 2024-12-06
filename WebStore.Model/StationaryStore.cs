@@ -6,7 +6,7 @@ namespace WebStore.Model
         
         public int AddressId { get; set; } // Foreign Key
         
-        public string StoreName { get; set; }
+        public string Name { get; set; }
         
         public Address Location { get; set; } = default!;
         public List<StationaryStoreEmployee> Employees { get; set; } = new();

@@ -8,10 +8,9 @@ namespace WebStore.DAL.Configuration
     {
         public void Configure(EntityTypeBuilder<StationaryStoreEmployee> builder)
         {
-            builder.ToTable("StationaryStoreEmployees");
-
-            builder.HasKey(e => e.Id);
-
+            //Inheritance mapping (TPH)
+            builder.HasBaseType<User>();
+            
             builder.Property(e => e.EmployeeName)
                    .IsRequired()
                    .HasMaxLength(100);

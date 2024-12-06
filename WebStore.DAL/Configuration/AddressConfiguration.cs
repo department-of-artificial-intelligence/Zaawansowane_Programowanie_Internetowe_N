@@ -23,6 +23,13 @@ namespace WebStore.DAL.Configuration
             builder.Property(a => a.PostalCode)
                    .IsRequired()
                    .HasMaxLength(20);
+            
+            builder.Property(a => a.BuildingNumber)
+                    .IsRequired()
+                    .HasMaxLength(20);
+            
+            builder.Property(a => a.ApartmentNumber)
+                    .HasMaxLength(20);
 
             builder.Property(a => a.Country)
                    .IsRequired()

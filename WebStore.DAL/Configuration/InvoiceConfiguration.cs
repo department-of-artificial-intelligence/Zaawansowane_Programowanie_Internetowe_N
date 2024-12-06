@@ -16,6 +16,10 @@ namespace WebStore.DAL.Configuration
             builder.Property(i => i.InvoiceDate)
                    .IsRequired();
 
+            builder.Property(i => i.InvoiceNumber)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
             builder.Property(i => i.TotalAmount)
                    .HasPrecision(18, 2)
                    .IsRequired();
